@@ -1,0 +1,16 @@
+{
+  "appName": "RS3 Quest Buddy",
+  "description": "RS3 Quest Buddy",
+  "appUrl": "./index.html",
+  "configUrl": "./appconfig.json",
+  "iconUrl": "./rs3buddyicon.png",
+  "defaultWidth": 665,
+  "defaultHeight": 603,
+  "minWidth": 250,
+  "minHeight": 250,
+  "maxWidth": 700,
+  "maxHeight": 700,
+  "requestHandlers": [],
+  "activators": [],
+  "permissions": "overlay, pixel, gamestate"
+}
