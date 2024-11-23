@@ -1,22 +1,24 @@
 import React, { useRef, useState, useEffect } from "react";
+
 type ColorPickerProps = {
-  onChange?: (colors: string[]) => void; // Callback to return saved colors
+  onChange?: (colors: string) => void; // Callback to return saved colors
 };
 
 export const ColorPicker: React.FC<ColorPickerProps> = ({ onChange }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [selectedColor, setSelectedColor] = useState<string>("#ffffff");
+  const [selectedColor, setSelectedColor] = useState<string>("#000000"); // Default to black
   const [pointerPosition, setPointerPosition] = useState<{
     x: number;
     y: number;
   } | null>(null);
   const [savedColors, setSavedColors] = useState<string[]>([]);
+  const [isDragging, setIsDragging] = useState(false); // Track dragging state
   const maxColors = 5;
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
       if (ctx) {
         // Create a horizontal gradient for the hue
         const gradient1 = ctx.createLinearGradient(0, 0, canvas.width, 0);
@@ -40,11 +42,31 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ onChange }) => {
 
         ctx.fillStyle = gradient2;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Set the initial position and color to black at the bottom center of the canvas
+        setPointerPosition({ x: canvas.width / 2, y: canvas.height });
+        const initialColor = getColorAtPosition(
+          ctx,
+          canvas.width / 2,
+          canvas.height
+        );
+        setSelectedColor(initialColor);
       }
     }
   }, []);
 
+  const getColorAtPosition = (
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number
+  ): string => {
+    const pixel = ctx.getImageData(x, y, 1, 1).data;
+    return `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isDragging) return; // Only update color when dragging
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -54,14 +76,35 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ onChange }) => {
 
     const ctx = canvas.getContext("2d");
     if (ctx) {
-      const pixel = ctx.getImageData(x, y, 1, 1).data;
-      const color = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+      const color = getColorAtPosition(ctx, x, y);
       setSelectedColor(color);
       setPointerPosition({ x, y });
     }
   };
 
-  const handleClick = () => {
+  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    setIsDragging(true);
+
+    // Select color immediately on mouse down
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      const color = getColorAtPosition(ctx, x, y);
+      setSelectedColor(color);
+      setPointerPosition({ x, y });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+
+    // Save color when mouse is released
     if (savedColors.length === maxColors) {
       savedColors.reverse();
       savedColors.pop();
@@ -74,7 +117,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ onChange }) => {
       const updatedColors = [...savedColors, selectedColor];
       setSavedColors(updatedColors);
       if (onChange) {
-        onChange(updatedColors);
+        onChange(selectedColor);
       }
     }
   };
@@ -87,8 +130,10 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ onChange }) => {
           width={100}
           height={100}
           style={{ border: "0.003em solid #000", borderRadius: "0.5em" }}
+          onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
-          onClick={handleClick}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp} // Stops dragging when the cursor leaves the canvas
         />
         <div
           style={{
@@ -116,10 +161,11 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ onChange }) => {
           />
         )}
       </div>
+      <hr style={{ width: "30em" }} />
 
-      {/* Display selected colors */}
+      {/* Display saved colors */}
       <div style={{ marginTop: ".005em" }}>
-        <div style={{ display: "flex", gap: "10px" }}>
+        <div style={{ display: "flex", gap: ".625em" }}>
           {savedColors.map((color, index) => (
             <div
               key={index}
