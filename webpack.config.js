@@ -6,23 +6,23 @@ const path = require("path");
 module.exports = {
   context: path.resolve(__dirname, "src"),
   entry: {
-    main: "./Networking/main.tsx", // Update as per your entry file path
+    main: "./Networking/main.tsx",
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].bundle.js", // Use a dynamic name for output files
-    publicPath: "/", // Ensure the dev server serves files from root
+    filename: "[name].bundle.js",
+    publicPath: "/",
   },
   devtool: "source-map",
   mode: "development",
   devServer: {
     static: {
-      directory: path.resolve(__dirname, "dist"), // Serve content from "dist"
+      directory: path.resolve(__dirname, "dist"),
     },
-    port: 3000, // Port for dev server
-    open: true, // Automatically open browser
-    hot: true, // Enable hot module replacement (HMR)
-    historyApiFallback: true, // Fallback to `index.html` for SPAs
+    port: 3000,
+    open: true,
+    hot: true,
+    historyApiFallback: true,
   },
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"],

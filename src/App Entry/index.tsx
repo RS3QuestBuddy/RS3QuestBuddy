@@ -9,7 +9,7 @@ export const AltGuard = () => {
       alt1.identifyAppUrl("./appconfig.json");
     }
   }, [window.alt1]);
-  console.log("alt1:", window.alt1); // Debug statement
+
   if (window.alt1 || override) {
     return <App />;
   }
@@ -17,7 +17,7 @@ export const AltGuard = () => {
   return (
     <>
       <div className="App">
-        <h1>ALT1 not found</h1>
+        <h1>Alt-1 was not found</h1>
         <p>
           <a
             href={`alt1://addapp/${window.location.protocol}//${
