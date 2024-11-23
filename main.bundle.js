@@ -50540,7 +50540,7 @@ const AltGuard = () => {
     return ((0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, { children: (0, jsx_runtime_1.jsxs)("div", { className: "App", children: [(0, jsx_runtime_1.jsx)("h1", { children: "ALT1 not found" }), (0, jsx_runtime_1.jsx)("p", { children: (0, jsx_runtime_1.jsx)("a", { href: `alt1://addapp/${window.location.protocol}//${window.location.host}/${!window.location.host.includes("localhost")
                             ? "RS3QuestBuddy/" //Include repo name (this is only for github pages)
                             : ""}appconfig${!window.location.host.includes("localhost")
-                            ? "appconfig" //Target prod (this is only for github pages)
+                            ? "" //Target prod (this is only for github pages)
                             : ""}.json`, children: (0, jsx_runtime_1.jsx)("button", { className: "Alt1button", children: "Click here to add this to alt1" }) }) }), (0, jsx_runtime_1.jsx)("button", { className: "Alt1button", onClick: () => setOverride(true), children: "Continue to RS3 Quest Buddy Web (No Alt1)" })] }) }));
 };
 client_1.default.createRoot(document.getElementById("root")).render((0, jsx_runtime_1.jsx)(AltGuard, {}));
