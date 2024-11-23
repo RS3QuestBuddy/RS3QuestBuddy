@@ -50547,6 +50547,89 @@ client_1.default.createRoot(document.getElementById("root")).render((0, jsx_runt
 
 /***/ }),
 
+/***/ "./Pages/Components/QuestAccordian.tsx":
+/*!*********************************************!*\
+  !*** ./Pages/Components/QuestAccordian.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Accordion = void 0;
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+const AccordionItem = ({ title, content }) => {
+    const [isOpen, setIsOpen] = (0, react_1.useState)(false);
+    const toggleAccordion = () => setIsOpen(!isOpen);
+    return ((0, jsx_runtime_1.jsxs)("div", { style: {
+            marginBottom: "1em",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+        }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: toggleAccordion, style: {
+                    width: "100%",
+                    padding: "10px",
+                    backgroundColor: isOpen ? "#ddd" : "#f9f9f9",
+                    border: "none",
+                    cursor: "pointer",
+                    textAlign: "left",
+                }, children: title }), isOpen && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
+};
+const Accordion = () => {
+    const items = [
+        {
+            title: "What is React?",
+            content: "React is a JavaScript library for building user interfaces.",
+        },
+        {
+            title: "What is JSX?",
+            content: "JSX is a syntax extension for JavaScript, used with React to describe UI.",
+        },
+        {
+            title: "What is a Hook?",
+            content: "Hooks are functions that let you use state and lifecycle features in React.",
+        },
+    ];
+    return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("h1", { children: "FAQ" }), items.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: item.title, content: item.content }, index)))] }));
+};
+exports.Accordion = Accordion;
+
+
+/***/ }),
+
+/***/ "./Pages/Data Fetchers/FetchQuestList.tsx":
+/*!************************************************!*\
+  !*** ./Pages/Data Fetchers/FetchQuestList.tsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QuestFetcher = void 0;
+const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+__webpack_require__(/*! ./../../Quest Data/QuestList.json */ "./Quest Data/QuestList.json");
+const QuestFetcher = () => {
+    const questlist = "./QuestList.json";
+    const FetchQuestList = async () => {
+        try {
+            const response = await fetch(questlist);
+            let questList = await response.json();
+            console.log(questList);
+            window.localStorage.setItem("questList", JSON.stringify(questList));
+        }
+        catch (error) {
+            console.error("Was not able to fetch Quest List from Quests");
+        }
+    };
+    (0, react_1.useEffect)(() => {
+        FetchQuestList();
+    }, []);
+    return null;
+};
+exports.QuestFetcher = QuestFetcher;
+
+
+/***/ }),
+
 /***/ "./Pages/QuestPicker.tsx":
 /*!*******************************!*\
   !*** ./Pages/QuestPicker.tsx ***!
@@ -50557,8 +50640,12 @@ client_1.default.createRoot(document.getElementById("root")).render((0, jsx_runt
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.QuestPick = void 0;
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+const QuestAccordian_1 = __webpack_require__(/*! ./Components/QuestAccordian */ "./Pages/Components/QuestAccordian.tsx");
+const FetchQuestList_1 = __webpack_require__(/*! ./Data Fetchers/FetchQuestList */ "./Pages/Data Fetchers/FetchQuestList.tsx");
 const QuestPick = () => {
-    return ((0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, { children: (0, jsx_runtime_1.jsx)("div", { children: (0, jsx_runtime_1.jsx)("p", { children: "I am right here :D" }) }) }));
+    let initialFetch = false;
+    let questListUpdated = false;
+    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(FetchQuestList_1.QuestFetcher, {}), (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, {})] }));
 };
 exports.QuestPick = QuestPick;
 
@@ -51311,6 +51398,16 @@ function createLineSplittingTransform() {
 exports.createLineSplittingTransform = createLineSplittingTransform;
 
 
+/***/ }),
+
+/***/ "./Quest Data/QuestList.json":
+/*!***********************************!*\
+  !*** ./Quest Data/QuestList.json ***!
+  \***********************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "QuestList.json";
+
 /***/ })
 
 /******/ 	});
@@ -51362,6 +51459,11 @@ exports.createLineSplittingTransform = createLineSplittingTransform;
 /******/ 			if (!module.children) module.children = [];
 /******/ 			return module;
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		__webpack_require__.p = "/";
 /******/ 	})();
 /******/ 	
 /************************************************************************/
