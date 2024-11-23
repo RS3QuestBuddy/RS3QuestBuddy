@@ -28,7 +28,7 @@ const AltGuard = () => {
                 : ""
             }appconfig${
               !window.location.host.includes("localhost")
-                ? "appconfig" //Target prod (this is only for github pages)
+                ? "" //Target prod (this is only for github pages)
                 : ""
             }.json`}
           >

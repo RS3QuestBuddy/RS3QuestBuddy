@@ -2,10 +2,12 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "deploy": "git push && npm run build && gh-pages -d dist"
   },
   "dependencies": {
     "alt1": "^0.0.7",
+    "gh-pages": "^6.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.0.1"
