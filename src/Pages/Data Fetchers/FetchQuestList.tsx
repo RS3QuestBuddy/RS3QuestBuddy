@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 require("./../../Quest Data/QuestList.json");
-type questlist = {
-  questName: string[];
+export type questlist = {
+  quests: string[];
 };
 
 export const QuestFetcher: React.FC = () => {

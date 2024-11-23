@@ -1,14 +1,20 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { questlist } from "../FetchQuestList";
 type AccordionItemProps = {
   title: string;
-  content: string;
+  content: string | null;
 };
 
 const AccordionItem: React.FC<AccordionItemProps> = ({ title, content }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleAccordion = () => setIsOpen(!isOpen);
+  const toggleAccordion = () => {
+    if (content === null) {
+      return null;
+    } else {
+      setIsOpen(!isOpen);
+    }
+  };
 
   return (
     <div
@@ -31,7 +37,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, content }) => {
       >
         {title}
       </button>
-      {isOpen && (
+      {isOpen && content && (
         <div style={{ padding: "10px", borderTop: "1px solid #ccc" }}>
           <p>{content}</p>
         </div>
@@ -41,29 +47,25 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, content }) => {
 };
 
 export const Accordion: React.FC = () => {
-  const items = [
-    {
-      title: "What is React?",
-      content: "React is a JavaScript library for building user interfaces.",
-    },
-    {
-      title: "What is JSX?",
-      content:
-        "JSX is a syntax extension for JavaScript, used with React to describe UI.",
-    },
-    {
-      title: "What is a Hook?",
-      content:
-        "Hooks are functions that let you use state and lifecycle features in React.",
-    },
-  ];
+  const [questList, setQuestList] = useState<questlist | null>(null); // Ensure initial state is null
+
+  useEffect(() => {
+    const jQuestList = window.localStorage.getItem("questList");
+    if (jQuestList !== null) {
+      const parsedList: questlist = JSON.parse(jQuestList);
+      setQuestList(parsedList);
+    }
+  }, []);
 
   return (
     <div>
-      <h1>FAQ</h1>
-      {items.map((item, index) => (
-        <AccordionItem key={index} title={item.title} content={item.content} />
-      ))}
+      {questList?.quests?.length ? (
+        questList.quests.map((item, index) => (
+          <AccordionItem key={index} title={item} content={null} />
+        ))
+      ) : (
+        <p>No quests available.</p> // Handle empty or undefined state
+      )}
     </div>
   );
 };

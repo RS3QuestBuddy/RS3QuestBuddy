@@ -1,7 +1,7 @@
 import * as a1lib from "alt1";
 import App from "../Networking/app";
 import { useEffect, useState } from "react";
-
+require("./src/*");
 export const AltGuard = () => {
   const [override, setOverride] = useState(false);
   useEffect(() => {
