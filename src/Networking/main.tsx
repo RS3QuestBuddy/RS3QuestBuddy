@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./app";
-
+import { FontSizeProvider } from "./../Pages/Data Fetchers/Components/FontContextProvider";
 const AltGuard = () => {
   const [override, setOverride] = useState(false);
   useEffect(() => {
@@ -44,6 +44,9 @@ const AltGuard = () => {
     </>
   );
 };
+document.querySelector("html")!.style.fontSize = "16px";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <AltGuard />
+  <FontSizeProvider>
+    <AltGuard />
+  </FontSizeProvider>
 );
