@@ -3,7 +3,7 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "webpack-dev-server",
-    "deploy": "git push && npm run build && gh-pages -d dist"
+    "deploy": "node deploy.js"
   },
   "dependencies": {
     "alt1": "^0.0.7",
@@ -13,9 +13,10 @@
     "react-router-dom": "^7.0.1"
   },
   "devDependencies": {
-    "@types/node": "^12.12.54",
+    "@types/node": "^18.19.64",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "inquirer": "^7.3.3",
     "sharp": "^0.31.3",
     "ts-loader": "^9.3.1",
     "typescript": "^5.1.3",

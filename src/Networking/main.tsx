@@ -9,7 +9,6 @@ const AltGuard = () => {
       alt1.identifyAppUrl("./appconfig.json");
     }
   }, [window.alt1]);
-  console.log("alt1:", window.alt1); // Debug statement
   if (window.alt1 || override) {
     return <App />;
   }
