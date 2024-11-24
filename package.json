@@ -3,7 +3,7 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "webpack-dev-server",
-    "deploy": "node deploy.js"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "alt1": "^0.0.7",
