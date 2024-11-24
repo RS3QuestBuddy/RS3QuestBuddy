@@ -1,15 +1,15 @@
-import * as a1lib from "alt1";
-import App from "../Networking/app";
 import { useEffect, useState } from "react";
-require("./src/*");
-export const AltGuard = () => {
+import ReactDOM from "react-dom/client";
+import { hasAlt1 } from "alt1";
+import App from "./app";
+import { FontSizeProvider } from "../Pages/Components/FontContextProvider";
+const AltGuard = () => {
   const [override, setOverride] = useState(false);
   useEffect(() => {
     if (window.alt1) {
       alt1.identifyAppUrl("./appconfig.json");
     }
   }, [window.alt1]);
-
   if (window.alt1 || override) {
     return <App />;
   }
@@ -17,7 +17,7 @@ export const AltGuard = () => {
   return (
     <>
       <div className="App">
-        <h1>Alt-1 was not found</h1>
+        <h1>ALT1 not found</h1>
         <p>
           <a
             href={`alt1://addapp/${window.location.protocol}//${
@@ -28,7 +28,7 @@ export const AltGuard = () => {
                 : ""
             }appconfig${
               !window.location.host.includes("localhost")
-                ? "appconfig" //Target prod (this is only for github pages)
+                ? "" //Target prod (this is only for github pages)
                 : ""
             }.json`}
           >
@@ -45,3 +45,9 @@ export const AltGuard = () => {
     </>
   );
 };
+document.querySelector("html")!.style.fontSize = "16px";
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <FontSizeProvider>
+    <AltGuard />
+  </FontSizeProvider>
+);

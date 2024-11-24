@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { questlist } from "./../FetchQuestList";
+import { questlist } from "./../Data Fetchers/FetchQuestList";
 
 type AccordionItemProps = {
   title: string;
@@ -25,7 +25,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
       style={{
         marginBottom: "1em",
         border: "1px solid #ccc",
-        borderRadius: "4px",
+        borderRadius: "10em",
       }}
     >
       <button
@@ -33,10 +33,9 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
         style={{
           width: "100%",
           padding: "10px",
-          backgroundColor: isOpen ? "#ddd" : "#f9f9f9",
-          border: "none",
+          borderRadius: "10em",
           cursor: "pointer",
-          textAlign: "left",
+          textAlign: "center",
         }}
       >
         {title}
