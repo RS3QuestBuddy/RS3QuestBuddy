@@ -50511,10 +50511,10 @@ exports["default"] = App;
 
 /***/ }),
 
-/***/ "./Networking/main.tsx":
-/*!*****************************!*\
-  !*** ./Networking/main.tsx ***!
-  \*****************************/
+/***/ "./Networking/index.tsx":
+/*!******************************!*\
+  !*** ./Networking/index.tsx ***!
+  \******************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -50526,7 +50526,7 @@ const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modu
 const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
 const client_1 = __importDefault(__webpack_require__(/*! react-dom/client */ "../node_modules/react-dom/client.js"));
 const app_1 = __importDefault(__webpack_require__(/*! ./app */ "./Networking/app.tsx"));
-const FontContextProvider_1 = __webpack_require__(/*! ./../Pages/Data Fetchers/Components/FontContextProvider */ "./Pages/Data Fetchers/Components/FontContextProvider.tsx");
+const FontContextProvider_1 = __webpack_require__(/*! ../Pages/Components/FontContextProvider */ "./Pages/Components/FontContextProvider.tsx");
 const AltGuard = () => {
     const [override, setOverride] = (0, react_1.useState)(false);
     (0, react_1.useEffect)(() => {
@@ -50549,10 +50549,10 @@ client_1.default.createRoot(document.getElementById("root")).render((0, jsx_runt
 
 /***/ }),
 
-/***/ "./Pages/Data Fetchers/Components/FontContextProvider.tsx":
-/*!****************************************************************!*\
-  !*** ./Pages/Data Fetchers/Components/FontContextProvider.tsx ***!
-  \****************************************************************/
+/***/ "./Pages/Components/FontContextProvider.tsx":
+/*!**************************************************!*\
+  !*** ./Pages/Components/FontContextProvider.tsx ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -50589,10 +50589,10 @@ exports.useFontSize = useFontSize;
 
 /***/ }),
 
-/***/ "./Pages/Data Fetchers/Components/QuestAccordian.tsx":
-/*!***********************************************************!*\
-  !*** ./Pages/Data Fetchers/Components/QuestAccordian.tsx ***!
-  \***********************************************************/
+/***/ "./Pages/Components/QuestAccordian.tsx":
+/*!*********************************************!*\
+  !*** ./Pages/Components/QuestAccordian.tsx ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -50611,14 +50611,13 @@ const AccordionItem = ({ title, content, onClick, }) => {
     return ((0, jsx_runtime_1.jsxs)("div", { style: {
             marginBottom: "1em",
             border: "1px solid #ccc",
-            borderRadius: "4px",
+            borderRadius: "10em",
         }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: toggleAccordion, style: {
                     width: "100%",
                     padding: "10px",
-                    backgroundColor: isOpen ? "#ddd" : "#f9f9f9",
-                    border: "none",
+                    borderRadius: "10em",
                     cursor: "pointer",
-                    textAlign: "left",
+                    textAlign: "center",
                 }, children: title }), isOpen && content && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
 };
 const Accordion = ({ onClick }) => {
@@ -50648,9 +50647,8 @@ exports.Accordion = Accordion;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.QuestFetcher = void 0;
 const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
-__webpack_require__(/*! ./../../Quest Data/QuestList.json */ "./Quest Data/QuestList.json");
 const QuestFetcher = () => {
-    const questlist = "./QuestList.json";
+    const questlist = "./";
     const FetchQuestList = async () => {
         try {
             const response = await fetch(questlist);
@@ -50682,13 +50680,13 @@ exports.QuestFetcher = QuestFetcher;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.QuestPick = void 0;
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
-const QuestAccordian_1 = __webpack_require__(/*! ./Data Fetchers/Components/QuestAccordian */ "./Pages/Data Fetchers/Components/QuestAccordian.tsx");
+const QuestAccordian_1 = __webpack_require__(/*! ./Components/QuestAccordian */ "./Pages/Components/QuestAccordian.tsx");
 const FetchQuestList_1 = __webpack_require__(/*! ./Data Fetchers/FetchQuestList */ "./Pages/Data Fetchers/FetchQuestList.tsx");
 const QuestPick = () => {
     const handleFunction = () => {
         console.log("Hello");
     };
-    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(FetchQuestList_1.QuestFetcher, {}), (0, jsx_runtime_1.jsx)("input", { className: "QuestSearchBar" }), (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, { onClick: handleFunction })] }));
+    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(FetchQuestList_1.QuestFetcher, {}), (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, { onClick: handleFunction })] }));
 };
 exports.QuestPick = QuestPick;
 
@@ -51441,16 +51439,6 @@ function createLineSplittingTransform() {
 exports.createLineSplittingTransform = createLineSplittingTransform;
 
 
-/***/ }),
-
-/***/ "./Quest Data/QuestList.json":
-/*!***********************************!*\
-  !*** ./Quest Data/QuestList.json ***!
-  \***********************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "QuestList.json";
-
 /***/ })
 
 /******/ 	});
@@ -51504,17 +51492,12 @@ module.exports = __webpack_require__.p + "QuestList.json";
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/publicPath */
-/******/ 	(() => {
-/******/ 		__webpack_require__.p = "/";
-/******/ 	})();
-/******/ 	
 /************************************************************************/
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./Networking/main.tsx");
+/******/ 	var __webpack_exports__ = __webpack_require__("./Networking/index.tsx");
 /******/ 	
 /******/ })()
 ;

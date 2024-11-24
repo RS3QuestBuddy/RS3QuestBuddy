@@ -1,2 +1,6 @@
 import React from "react";
-export declare const Accordion: React.FC;
+type AccordionProps = {
+    onClick?: (title: string) => void;
+};
+export declare const Accordion: React.FC<AccordionProps>;
+export {};

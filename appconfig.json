@@ -3,7 +3,7 @@
   "description": "RS3 Quest Buddy",
   "appUrl": "./index.html",
   "configUrl": "./appconfig.json",
-  "iconUrl": "./App Images/rs3buddyicon.png",
+  "iconUrl": "./Assets/App Images/rs3buddyicon.png",
   "defaultWidth": 665,
   "defaultHeight": 603,
   "minWidth": 250,
