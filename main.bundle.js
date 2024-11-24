@@ -50526,6 +50526,7 @@ const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modu
 const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
 const client_1 = __importDefault(__webpack_require__(/*! react-dom/client */ "../node_modules/react-dom/client.js"));
 const app_1 = __importDefault(__webpack_require__(/*! ./app */ "./Networking/app.tsx"));
+const FontContextProvider_1 = __webpack_require__(/*! ./../Pages/Data Fetchers/Components/FontContextProvider */ "./Pages/Data Fetchers/Components/FontContextProvider.tsx");
 const AltGuard = () => {
     const [override, setOverride] = (0, react_1.useState)(false);
     (0, react_1.useEffect)(() => {
@@ -50542,15 +50543,56 @@ const AltGuard = () => {
                             ? "" //Target prod (this is only for github pages)
                             : ""}.json`, children: (0, jsx_runtime_1.jsx)("button", { className: "Alt1button", children: "Click here to add this to alt1" }) }) }), (0, jsx_runtime_1.jsx)("button", { className: "Alt1button", onClick: () => setOverride(true), children: "Continue to RS3 Quest Buddy Web (No Alt1)" })] }) }));
 };
-client_1.default.createRoot(document.getElementById("root")).render((0, jsx_runtime_1.jsx)(AltGuard, {}));
+document.querySelector("html").style.fontSize = "16px";
+client_1.default.createRoot(document.getElementById("root")).render((0, jsx_runtime_1.jsx)(FontContextProvider_1.FontSizeProvider, { children: (0, jsx_runtime_1.jsx)(AltGuard, {}) }));
 
 
 /***/ }),
 
-/***/ "./Pages/Components/QuestAccordian.tsx":
-/*!*********************************************!*\
-  !*** ./Pages/Components/QuestAccordian.tsx ***!
-  \*********************************************/
+/***/ "./Pages/Data Fetchers/Components/FontContextProvider.tsx":
+/*!****************************************************************!*\
+  !*** ./Pages/Data Fetchers/Components/FontContextProvider.tsx ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.useFontSize = exports.FontSizeProvider = void 0;
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+// FontContextProvider.tsx
+const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+const FontSizeContext = (0, react_1.createContext)({
+    fontSize: 16, // Default font size
+    setFontSize: () => { }, // Placeholder function
+});
+// Provider component
+const FontSizeProvider = ({ children, }) => {
+    // Initialize font size with local storage value or default to 16
+    const [fontSize, setFontSize] = (0, react_1.useState)(() => {
+        const savedSize = localStorage.getItem("userFontSize");
+        return savedSize ? parseFloat(savedSize) : 16;
+    });
+    (0, react_1.useEffect)(() => {
+        // Apply font size to the <html> element whenever fontSize changes
+        document.querySelector("html").style.fontSize = `${fontSize}px`;
+        // Save font size to local storage
+        localStorage.setItem("userFontSize", fontSize.toString());
+    }, [fontSize]);
+    // Provide fontSize and setFontSize function to the context
+    return ((0, jsx_runtime_1.jsx)(FontSizeContext.Provider, { value: { fontSize, setFontSize }, children: children }));
+};
+exports.FontSizeProvider = FontSizeProvider;
+// Custom hook to use font size context
+const useFontSize = () => (0, react_1.useContext)(FontSizeContext);
+exports.useFontSize = useFontSize;
+
+
+/***/ }),
+
+/***/ "./Pages/Data Fetchers/Components/QuestAccordian.tsx":
+/*!***********************************************************!*\
+  !*** ./Pages/Data Fetchers/Components/QuestAccordian.tsx ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -50558,9 +50600,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Accordion = void 0;
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
 const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
-const AccordionItem = ({ title, content }) => {
+const AccordionItem = ({ title, content, onClick, }) => {
     const [isOpen, setIsOpen] = (0, react_1.useState)(false);
-    const toggleAccordion = () => setIsOpen(!isOpen);
+    const toggleAccordion = () => {
+        setIsOpen(!isOpen);
+    };
+    if (onClick) {
+        onClick(title);
+    }
     return ((0, jsx_runtime_1.jsxs)("div", { style: {
             marginBottom: "1em",
             border: "1px solid #ccc",
@@ -50572,24 +50619,19 @@ const AccordionItem = ({ title, content }) => {
                     border: "none",
                     cursor: "pointer",
                     textAlign: "left",
-                }, children: title }), isOpen && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
+                }, children: title }), isOpen && content && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
 };
-const Accordion = () => {
-    const items = [
-        {
-            title: "What is React?",
-            content: "React is a JavaScript library for building user interfaces.",
-        },
-        {
-            title: "What is JSX?",
-            content: "JSX is a syntax extension for JavaScript, used with React to describe UI.",
-        },
-        {
-            title: "What is a Hook?",
-            content: "Hooks are functions that let you use state and lifecycle features in React.",
-        },
-    ];
-    return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("h1", { children: "FAQ" }), items.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: item.title, content: item.content }, index)))] }));
+const Accordion = ({ onClick }) => {
+    const [questList, setQuestList] = (0, react_1.useState)(null); // Ensure initial state is null
+    (0, react_1.useEffect)(() => {
+        const jQuestList = window.localStorage.getItem("questList");
+        if (jQuestList !== null) {
+            const parsedList = JSON.parse(jQuestList);
+            setQuestList(parsedList);
+        }
+    }, []);
+    return ((0, jsx_runtime_1.jsx)("div", { children: questList?.quests?.length ? (questList.quests.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: item, content: null, onClick: onClick }, index)))) : ((0, jsx_runtime_1.jsx)("p", { children: "No quests available." }) // Handle empty or undefined state
+        ) }));
 };
 exports.Accordion = Accordion;
 
@@ -50640,12 +50682,13 @@ exports.QuestFetcher = QuestFetcher;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.QuestPick = void 0;
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
-const QuestAccordian_1 = __webpack_require__(/*! ./Components/QuestAccordian */ "./Pages/Components/QuestAccordian.tsx");
+const QuestAccordian_1 = __webpack_require__(/*! ./Data Fetchers/Components/QuestAccordian */ "./Pages/Data Fetchers/Components/QuestAccordian.tsx");
 const FetchQuestList_1 = __webpack_require__(/*! ./Data Fetchers/FetchQuestList */ "./Pages/Data Fetchers/FetchQuestList.tsx");
 const QuestPick = () => {
-    let initialFetch = false;
-    let questListUpdated = false;
-    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(FetchQuestList_1.QuestFetcher, {}), (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, {})] }));
+    const handleFunction = () => {
+        console.log("Hello");
+    };
+    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(FetchQuestList_1.QuestFetcher, {}), (0, jsx_runtime_1.jsx)("input", { className: "QuestSearchBar" }), (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, { onClick: handleFunction })] }));
 };
 exports.QuestPick = QuestPick;
 
