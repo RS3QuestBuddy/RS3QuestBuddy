@@ -250,6 +250,18 @@ function isDate(val) {
 
 /***/ }),
 
+/***/ "./Networking/index.css":
+/*!******************************!*\
+  !*** ./Networking/index.css ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "../node_modules/react-dom/cjs/react-dom.development.js":
 /*!**************************************************************!*\
   !*** ../node_modules/react-dom/cjs/react-dom.development.js ***!
@@ -50527,6 +50539,7 @@ const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js
 const client_1 = __importDefault(__webpack_require__(/*! react-dom/client */ "../node_modules/react-dom/client.js"));
 const app_1 = __importDefault(__webpack_require__(/*! ./app */ "./Networking/app.tsx"));
 const FontContextProvider_1 = __webpack_require__(/*! ../Pages/Components/FontContextProvider */ "./Pages/Components/FontContextProvider.tsx");
+__webpack_require__(/*! ./index.css */ "./Networking/index.css");
 const AltGuard = () => {
     const [override, setOverride] = (0, react_1.useState)(false);
     (0, react_1.useEffect)(() => {
@@ -50559,13 +50572,11 @@ client_1.default.createRoot(document.getElementById("root")).render((0, jsx_runt
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.useFontSize = exports.FontSizeProvider = void 0;
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
-// FontContextProvider.tsx
 const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
 const FontSizeContext = (0, react_1.createContext)({
-    fontSize: 16, // Default font size
-    setFontSize: () => { }, // Placeholder function
+    fontSize: 16,
+    setFontSize: () => { },
 });
-// Provider component
 const FontSizeProvider = ({ children, }) => {
     // Initialize font size with local storage value or default to 16
     const [fontSize, setFontSize] = (0, react_1.useState)(() => {
@@ -50614,13 +50625,14 @@ const AccordionItem = ({ title, content, onClick, }) => {
             position: "relative",
             borderBottom: "2px solid #ccc",
             borderBottomColor: "silver",
-        }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: toggleAccordion, style: {
+        }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: toggleAccordion, className: "QuestNameAccord", style: {
                     width: "100%",
                     padding: "10px",
                     border: "none",
                     cursor: "pointer",
                     textAlign: "center",
                     backgroundColor: "rgba(0,0,0,0)",
+                    color: "white",
                 }, children: title }), isOpen && content && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
 };
 const Accordion = ({ onClick }) => {
@@ -50664,14 +50676,14 @@ const QuestFetcher = ({ onFetchComplete, }) => {
             window.localStorage.setItem("questList", JSON.stringify(questList));
             console.log("Quest list fetched and stored in localStorage.");
             if (onFetchComplete) {
-                onFetchComplete(true); // Notify the parent component if needed
+                onFetchComplete(true);
             }
-            window.location.reload(); // Refresh the page
+            window.location.reload();
         }
         catch (error) {
             console.error("Was not able to fetch Quest List from Quests:", error);
             if (onFetchComplete) {
-                onFetchComplete(false); // Notify the parent component of failure
+                onFetchComplete(false);
             }
         }
     };
@@ -50684,7 +50696,7 @@ const QuestFetcher = ({ onFetchComplete, }) => {
         else {
             console.log("Quest list found in localStorage. Skipping fetch.");
             if (onFetchComplete) {
-                onFetchComplete(true); // Notify the parent component if data exists
+                onFetchComplete(true);
             }
         }
     }, []);
@@ -51506,6 +51518,17 @@ exports.createLineSplittingTransform = createLineSplittingTransform;
 /******/ 				if (typeof window === 'object') return window;
 /******/ 			}
 /******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/node module decorator */

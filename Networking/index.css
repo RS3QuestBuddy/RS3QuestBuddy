@@ -1,3 +1,12 @@
+/*!*************************************************************************!*\
+  !*** css ../node_modules/css-loader/dist/cjs.js!./Networking/index.css ***!
+  \*************************************************************************/
 body {
-  background-image: url("./../Assets/App Images/background.png");
+  background-image: url(/background.png);
 }
+.QuestNameAccord :hover {
+  color: rgb(48, 73, 126);
+}
+
+
+/*# sourceMappingURL=index.css.map*/
