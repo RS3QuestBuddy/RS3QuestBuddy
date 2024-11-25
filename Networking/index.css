@@ -4,8 +4,26 @@
 body {
   background-image: url(/background.png);
 }
-.QuestNameAccord :hover {
-  color: rgb(48, 73, 126);
+.DivQuestNameAccord {
+  margin-bottom: 0.5em;
+  align-items: center;
+  width: 100%;
+  border-bottom: 2px solid #ccc;
+  border-bottom-color: silver;
+  border-radius: 0.25em;
+}
+
+.DivQuestNameAccord:hover {
+  background-color: rgb(39, 103, 139);
+}
+.QuestNameAccord {
+  color: white;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
 }
 
 

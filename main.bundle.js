@@ -50619,21 +50619,7 @@ const AccordionItem = ({ title, content, onClick, }) => {
             onClick(title); // Trigger the callback when toggled
         }
     };
-    return ((0, jsx_runtime_1.jsxs)("div", { style: {
-            marginBottom: "1em",
-            textAlign: "center",
-            position: "relative",
-            borderBottom: "2px solid #ccc",
-            borderBottomColor: "silver",
-        }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: toggleAccordion, className: "QuestNameAccord", style: {
-                    width: "100%",
-                    padding: "10px",
-                    border: "none",
-                    cursor: "pointer",
-                    textAlign: "center",
-                    backgroundColor: "rgba(0,0,0,0)",
-                    color: "white",
-                }, children: title }), isOpen && content && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
+    return ((0, jsx_runtime_1.jsxs)("div", { className: "DivQuestNameAccord", children: [(0, jsx_runtime_1.jsx)("button", { onClick: toggleAccordion, className: "QuestNameAccord", children: title }), isOpen && content && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
 };
 const Accordion = ({ onClick }) => {
     const [questList, setQuestList] = (0, react_1.useState)(null); // Ensure initial state is null
