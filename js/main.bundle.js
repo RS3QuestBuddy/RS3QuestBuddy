@@ -51471,7 +51471,7 @@ exports.createLineSplittingTransform = createLineSplittingTransform;
   \*********************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "assets/rs3buddyicon.png";
+module.exports = __webpack_require__.p + "(./../Assets/rs3buddyicon.png";
 
 /***/ })
 
