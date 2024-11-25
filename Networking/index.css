@@ -2,7 +2,7 @@
   !*** css ../node_modules/css-loader/dist/cjs.js!./Networking/index.css ***!
   \*************************************************************************/
 body {
-  background-image: url(/background.png);
+  background-image: url("/Assets/App%20Images/background.png");
 }
 .DivQuestNameAccord {
   margin-bottom: 0.5em;
