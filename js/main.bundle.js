@@ -50540,7 +50540,7 @@ const client_1 = __importDefault(__webpack_require__(/*! react-dom/client */ "..
 const app_1 = __importDefault(__webpack_require__(/*! ./app */ "./Networking/app.tsx"));
 const FontContextProvider_1 = __webpack_require__(/*! ../Pages/Components/FontContextProvider */ "./Pages/Components/FontContextProvider.tsx");
 __webpack_require__(/*! ./index.css */ "./Networking/index.css");
-__webpack_require__(/*! ./../Assets/App Images/rs3buddyicon.png */ "./Assets/App Images/rs3buddyicon.png");
+__webpack_require__(/*! ./../Assets/rs3buddyicon.png */ "./Assets/rs3buddyicon.png");
 const AltGuard = () => {
     const [override, setOverride] = (0, react_1.useState)(false);
     (0, react_1.useEffect)(() => {
@@ -51465,10 +51465,10 @@ exports.createLineSplittingTransform = createLineSplittingTransform;
 
 /***/ }),
 
-/***/ "./Assets/App Images/rs3buddyicon.png":
-/*!********************************************!*\
-  !*** ./Assets/App Images/rs3buddyicon.png ***!
-  \********************************************/
+/***/ "./Assets/rs3buddyicon.png":
+/*!*********************************!*\
+  !*** ./Assets/rs3buddyicon.png ***!
+  \*********************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 module.exports = __webpack_require__.p + "assets/rs3buddyicon.png";
