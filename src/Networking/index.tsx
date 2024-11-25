@@ -4,7 +4,7 @@ import { hasAlt1 } from "alt1";
 import App from "./app";
 import { FontSizeProvider } from "../Pages/Components/FontContextProvider";
 import "./index.css";
-import "./../Assets/App Images/rs3buddyicon.png";
+import "./../Assets/rs3buddyicon.png";
 const AltGuard = () => {
   const [override, setOverride] = useState(false);
   useEffect(() => {
