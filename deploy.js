@@ -17,7 +17,7 @@ inquirer
     execSync("npm run build", { stdio: "inherit" });
 
     console.log("Deploying to GitHub Pages...");
-    execSync(`gh-pages -d dist -m "${answers.commitMessage}"`, {
+    execSync(`gh-pages -a -d dist -m "${answers.commitMessage}"`, {
       stdio: "inherit",
     });
   })

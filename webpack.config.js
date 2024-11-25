@@ -1,8 +1,7 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
-/**
- * @type {import("webpack").Configuration}
- */
 module.exports = {
   context: path.resolve(__dirname, "src"),
   entry: {
@@ -10,7 +9,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].bundle.js",
+    filename: "js/[name].bundle.js",
     publicPath: "/",
   },
   devtool: "source-map",
@@ -30,28 +29,34 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/, // Match .ts and .tsx files
+        test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/,
       },
-      { test: /\.css$/, use: ["style-loader", "css-loader"] },
-      { test: /\.scss$/, use: ["style-loader", "css-loader", "sass-loader"] },
       {
-        test: /\.(png|jpg|jpeg|gif|webp)$/,
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|webp)$/i,
         type: "asset/resource",
-        generator: { filename: "[base]" },
+        generator: {
+          filename: "assets/[base]",
+        },
       },
-      {
-        test: /\.(html|json)$/,
-        type: "asset/resource",
-        generator: { filename: "[base]" },
-      },
-      {
-        test: /\.data\.png$/,
-        loader: "alt1/imagedata-loader",
-        type: "javascript/auto",
-      },
-      { test: /\.fontmeta.json/, loader: "alt1/font-loader" },
     ],
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "Networking/index.css",
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "src/index.html"), // Ensure this is the correct path to your index.html
+      filename: "index.html",
+    }),
+  ],
 };

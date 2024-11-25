@@ -23,26 +23,8 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   };
 
   return (
-    <div
-      style={{
-        marginBottom: "1em",
-        textAlign: "center",
-        position: "relative",
-        borderBottom: "2px solid #ccc",
-        borderBottomColor: "silver",
-      }}
-    >
-      <button
-        onClick={toggleAccordion}
-        style={{
-          width: "100%",
-          padding: "10px",
-          border: "none",
-          cursor: "pointer",
-          textAlign: "center",
-          backgroundColor: "rgba(0,0,0,0)",
-        }}
-      >
+    <div className="DivQuestNameAccord">
+      <button onClick={toggleAccordion} className="QuestNameAccord">
         {title}
       </button>
 
