@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { hasAlt1 } from "alt1";
 import App from "./app";
-import { FontSizeProvider } from "../Pages/Components/FontContextProvider";
-import "./index.css";
+import { FontSizeProvider } from "../Pages/Font Wrapper/FontContextProvider";
+import "./../Assets/css/index.css";
 import "./../Assets/rs3buddyicon.png";
 const AltGuard = () => {
   const [override, setOverride] = useState(false);

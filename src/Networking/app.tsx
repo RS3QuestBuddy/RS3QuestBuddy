@@ -1,5 +1,5 @@
 import { Routes, Route, HashRouter, Navigate, Outlet } from "react-router-dom";
-import { QuestPick } from "./../Pages/QuestPicker";
+import { QuestPick } from "./../Pages/Quest Selection/QuestPicker";
 function App() {
   return (
     <>
