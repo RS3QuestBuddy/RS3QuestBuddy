@@ -10,7 +10,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "js/[name].bundle.js",
-    publicPath: "/",
+    publicPath: "/", // Base path for all assets
   },
   devtool: "source-map",
   mode: "development",
@@ -35,17 +35,34 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              url: false, // Preserve original URLs
+            },
+          },
+        ],
       },
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              url: false, // Preserve original URLs
+            },
+          },
+          "sass-loader",
+        ],
       },
       {
         test: /\.(png|jpg|jpeg|gif|webp)$/i,
         type: "asset/resource",
         generator: {
-          filename: "assets/[base]",
+          filename: "[path][name][ext]", // Preserve folder structure
         },
       },
     ],
@@ -55,8 +72,9 @@ module.exports = {
       filename: "Networking/index.css",
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "src/index.html"), // Ensure this is the correct path to your index.html
+      template: path.resolve(__dirname, "src/index.html"),
       filename: "index.html",
+      inject: false,
     }),
   ],
 };
