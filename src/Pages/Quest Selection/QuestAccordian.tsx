@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchQuestList, questlist } from "./FetchQuestList";
+import { useFetchQuestList } from "./useFetchQuestList";
 
 interface AccordionItemProps {
   title: string;
@@ -33,23 +33,26 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 export const Accordion: React.FC<{ onItemClick: (value: string) => void }> = ({
   onItemClick,
 }) => {
-  const [questList, setQuestList] = useState<questlist | null>(null);
+  const { questList, fetchQuest, isLoading, hasError } = useFetchQuestList();
 
   useEffect(() => {
-    const loadQuestList = async () => {
-      const ql = await fetchQuestList();
-      if (ql) {
-        setQuestList(ql);
-      }
-    };
+    fetchQuest();
+  }, [])
 
-    loadQuestList();
-  }, []);
+  if (isLoading) {
+    // show loading animation by returning loading component here.
+    // TODO: Find loading component from UI library or create one from scratch
+    <div className='accordion-loading'>Loading...</div>;
+  }
+
+  if (hasError) {
+    return <div className='accordion-error'>An error occured while fetching the list of quest.</div>;
+  }
 
   return (
     <div>
-      {questList?.quests?.length ? (
-        questList.quests.map((item, index) => (
+      {questList?.length ? (
+        questList.map((item, index) => (
           <AccordionItem
             key={index}
             title={item}
