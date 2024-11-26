@@ -250,9 +250,9 @@ function isDate(val) {
 
 /***/ }),
 
-/***/ "./Networking/index.css":
+/***/ "./Assets/css/index.css":
 /*!******************************!*\
-  !*** ./Networking/index.css ***!
+  !*** ./Assets/css/index.css ***!
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -50514,9 +50514,10 @@ module.exports.splitCookiesString = splitCookiesString;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "../node_modules/react-router-dom/dist/index.js");
-const QuestPicker_1 = __webpack_require__(/*! ./../Pages/QuestPicker */ "./Pages/QuestPicker.tsx");
+const QuestPicker_1 = __webpack_require__(/*! ./../Pages/Quest Selection/QuestPicker */ "./Pages/Quest Selection/QuestPicker.tsx");
+const QuestDetails_1 = __webpack_require__(/*! ./../Pages/Quest Details/QuestDetails */ "./Pages/Quest Details/QuestDetails.tsx");
 function App() {
-    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(react_router_dom_1.HashRouter, { basename: "/", children: (0, jsx_runtime_1.jsxs)(react_router_dom_1.Routes, { children: [(0, jsx_runtime_1.jsx)(react_router_dom_1.Route, { path: "/", children: (0, jsx_runtime_1.jsx)(react_router_dom_1.Route, { index: true, element: (0, jsx_runtime_1.jsx)(QuestPicker_1.QuestPick, {}) }) }), (0, jsx_runtime_1.jsx)(react_router_dom_1.Route, { path: "/QuestPage", element: "" }), (0, jsx_runtime_1.jsx)(react_router_dom_1.Route, { path: "/*", element: (0, jsx_runtime_1.jsx)(react_router_dom_1.Navigate, { to: "/" }) })] }) }), (0, jsx_runtime_1.jsx)(react_router_dom_1.Outlet, {})] }));
+    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(react_router_dom_1.HashRouter, { basename: "/", children: (0, jsx_runtime_1.jsxs)(react_router_dom_1.Routes, { children: [(0, jsx_runtime_1.jsx)(react_router_dom_1.Route, { path: "/", children: (0, jsx_runtime_1.jsx)(react_router_dom_1.Route, { index: true, element: (0, jsx_runtime_1.jsx)(QuestPicker_1.QuestPick, {}) }) }), (0, jsx_runtime_1.jsx)(react_router_dom_1.Route, { path: "/QuestDetails", element: (0, jsx_runtime_1.jsx)(QuestDetails_1.QuestDetails, {}) }), (0, jsx_runtime_1.jsx)(react_router_dom_1.Route, { path: "/*", element: (0, jsx_runtime_1.jsx)(react_router_dom_1.Navigate, { to: "/" }) })] }) }), (0, jsx_runtime_1.jsx)(react_router_dom_1.Outlet, {})] }));
 }
 exports["default"] = App;
 
@@ -50538,8 +50539,8 @@ const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modu
 const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
 const client_1 = __importDefault(__webpack_require__(/*! react-dom/client */ "../node_modules/react-dom/client.js"));
 const app_1 = __importDefault(__webpack_require__(/*! ./app */ "./Networking/app.tsx"));
-const FontContextProvider_1 = __webpack_require__(/*! ../Pages/Components/FontContextProvider */ "./Pages/Components/FontContextProvider.tsx");
-__webpack_require__(/*! ./index.css */ "./Networking/index.css");
+const FontContextProvider_1 = __webpack_require__(/*! ../Pages/Font Wrapper/FontContextProvider */ "./Pages/Font Wrapper/FontContextProvider.tsx");
+__webpack_require__(/*! ./../Assets/css/index.css */ "./Assets/css/index.css");
 __webpack_require__(/*! ./../Assets/rs3buddyicon.png */ "./Assets/rs3buddyicon.png");
 const AltGuard = () => {
     const [override, setOverride] = (0, react_1.useState)(false);
@@ -50563,10 +50564,10 @@ client_1.default.createRoot(document.getElementById("root")).render((0, jsx_runt
 
 /***/ }),
 
-/***/ "./Pages/Components/FontContextProvider.tsx":
-/*!**************************************************!*\
-  !*** ./Pages/Components/FontContextProvider.tsx ***!
-  \**************************************************/
+/***/ "./Pages/Font Wrapper/FontContextProvider.tsx":
+/*!****************************************************!*\
+  !*** ./Pages/Font Wrapper/FontContextProvider.tsx ***!
+  \****************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -50601,10 +50602,143 @@ exports.useFontSize = useFontSize;
 
 /***/ }),
 
-/***/ "./Pages/Components/QuestAccordian.tsx":
-/*!*********************************************!*\
-  !*** ./Pages/Components/QuestAccordian.tsx ***!
-  \*********************************************/
+/***/ "./Pages/Quest Details/QuestDetails.tsx":
+/*!**********************************************!*\
+  !*** ./Pages/Quest Details/QuestDetails.tsx ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QuestDetails = void 0;
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "../node_modules/react-router-dom/dist/index.js");
+const QuestDetailsAccordian_1 = __importDefault(__webpack_require__(/*! ./QuestDetailsAccordian */ "./Pages/Quest Details/QuestDetailsAccordian.tsx"));
+const QuestDetails = () => {
+    const location = (0, react_router_dom_1.useLocation)();
+    const { questValue } = location.state || {};
+    const hist = (0, react_router_dom_1.useNavigate)();
+    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)("button", { onClick: () => {
+                    hist("/");
+                }, children: "Go Back" }), (0, jsx_runtime_1.jsx)(QuestDetailsAccordian_1.default, { selectedQuest: questValue })] }));
+};
+exports.QuestDetails = QuestDetails;
+
+
+/***/ }),
+
+/***/ "./Pages/Quest Details/QuestDetailsAccordian.tsx":
+/*!*******************************************************!*\
+  !*** ./Pages/Quest Details/QuestDetailsAccordian.tsx ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+const fetchQuestDetails_1 = __webpack_require__(/*! ./fetchQuestDetails */ "./Pages/Quest Details/fetchQuestDetails.ts");
+const AccordionItem = ({ title, content }) => {
+    const [isOpen, setIsOpen] = (0, react_1.useState)(false);
+    const toggleOpen = () => {
+        setIsOpen(!isOpen);
+    };
+    return ((0, jsx_runtime_1.jsxs)("div", { style: {
+            margin: "10px 0",
+            border: "1px solid #ccc",
+            borderRadius: "5px",
+        }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: toggleOpen, style: {
+                    width: "100%",
+                    padding: "10px",
+                    background: "#f5f5f5",
+                    border: "none",
+                    textAlign: "left",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                }, children: title }), isOpen && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
+};
+const QuestDetailsAccordion = ({ selectedQuest, }) => {
+    // State should always be an array of quests
+    const [questDetails, setQuestDetails] = (0, react_1.useState)([]); // Array of quests
+    (0, react_1.useEffect)(() => {
+        const loadQuestDetails = async () => {
+            const details = await (0, fetchQuestDetails_1.fetchQuestDetails)();
+            // Check if the result is a single object, wrap it in an array if so
+            if (Array.isArray(details)) {
+                setQuestDetails(details);
+            }
+        };
+        loadQuestDetails();
+    }, []);
+    // Filter the quests based on the selectedQuest value (only if the quest name is defined)
+    const filteredItems = questDetails?.filter((quest) => quest?.Quest?.startsWith(selectedQuest)) ||
+        [];
+    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Requirement's", content: item.Requirements }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Start Point", content: item.StartPoint }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Is This a Members Quest?", content: item.MemberRequirement }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "How Long is This Quest?", content: item.OfficialLength }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Items You Definitely Need!", content: item.ItemsRequired }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Items You Might Need?", content: item.Recommended }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Enemies To Look Out For!", content: item.EnemiesToDefeat }, index))) })] }));
+};
+exports["default"] = QuestDetailsAccordion;
+
+
+/***/ }),
+
+/***/ "./Pages/Quest Details/fetchQuestDetails.ts":
+/*!**************************************************!*\
+  !*** ./Pages/Quest Details/fetchQuestDetails.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.fetchQuestDetails = void 0;
+const questDetailPath = "./../../Quest Data/QuestDetails.json";
+const fetchQuestDetails = async () => {
+    try {
+        const response = await fetch(questDetailPath);
+        const questDetails = await response.json();
+        return questDetails;
+    }
+    catch (error) {
+        console.error("Was not able to fetch Quest List from Quests:", error);
+        return null;
+    }
+};
+exports.fetchQuestDetails = fetchQuestDetails;
+
+
+/***/ }),
+
+/***/ "./Pages/Quest Selection/FetchQuestList.ts":
+/*!*************************************************!*\
+  !*** ./Pages/Quest Selection/FetchQuestList.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.fetchQuestList = void 0;
+const questlistPath = "./../../Quest Data/QuestList.json";
+const fetchQuestList = async () => {
+    try {
+        const response = await fetch(questlistPath);
+        const questList = await response.json();
+        return questList;
+    }
+    catch (error) {
+        console.error("Was not able to fetch Quest List from Quests:", error);
+        return null;
+    }
+};
+exports.fetchQuestList = fetchQuestList;
+
+
+/***/ }),
+
+/***/ "./Pages/Quest Selection/QuestAccordian.tsx":
+/*!**************************************************!*\
+  !*** ./Pages/Quest Selection/QuestAccordian.tsx ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -50612,105 +50746,46 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Accordion = void 0;
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
 const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+const FetchQuestList_1 = __webpack_require__(/*! ./FetchQuestList */ "./Pages/Quest Selection/FetchQuestList.ts");
 const AccordionItem = ({ title, content, onClick, }) => {
-    const [isOpen, setIsOpen] = (0, react_1.useState)(false);
-    const toggleAccordion = () => {
-        setIsOpen(!isOpen);
-        if (onClick) {
-            onClick(title); // Trigger the callback when toggled
-        }
-    };
-    return ((0, jsx_runtime_1.jsxs)("div", { className: "DivQuestNameAccord", children: [(0, jsx_runtime_1.jsx)("button", { onClick: toggleAccordion, className: "QuestNameAccord", children: title }), isOpen && content && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
+    return ((0, jsx_runtime_1.jsxs)("div", { className: "DivQuestNameAccord", children: [(0, jsx_runtime_1.jsx)("button", { onClick: () => onClick(title), className: "QuestNameAccord", children: title }), content && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
 };
-const Accordion = ({ onClick }) => {
-    const [questList, setQuestList] = (0, react_1.useState)(null); // Ensure initial state is null
-    const [isClickActive, setIsClickActive] = (0, react_1.useState)(false);
+const Accordion = ({ onItemClick, }) => {
+    const [questList, setQuestList] = (0, react_1.useState)(null);
     (0, react_1.useEffect)(() => {
-        const jQuestList = window.localStorage.getItem("questList");
-        if (jQuestList !== null) {
-            const parsedList = JSON.parse(jQuestList);
-            setQuestList(parsedList);
-            setIsClickActive(true);
-        }
-        else {
-            setIsClickActive(false);
-        }
-    }, [isClickActive]);
-    return ((0, jsx_runtime_1.jsx)("div", { children: questList?.quests?.length ? (questList.quests.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: item, content: null, onClick: isClickActive ? onClick : undefined }, index)))) : ((0, jsx_runtime_1.jsx)("p", { children: "No quests available." }) // Handle empty or undefined state
-        ) }));
+        const loadQuestList = async () => {
+            const ql = await (0, FetchQuestList_1.fetchQuestList)();
+            if (ql) {
+                setQuestList(ql);
+            }
+        };
+        loadQuestList();
+    }, []);
+    return ((0, jsx_runtime_1.jsx)("div", { children: questList?.quests?.length ? (questList.quests.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: item, content: null, onClick: (value) => onItemClick(value) }, index)))) : ((0, jsx_runtime_1.jsx)("p", { children: "No quests available." })) }));
 };
 exports.Accordion = Accordion;
 
 
 /***/ }),
 
-/***/ "./Pages/Data Fetchers/FetchQuestList.tsx":
-/*!************************************************!*\
-  !*** ./Pages/Data Fetchers/FetchQuestList.tsx ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.QuestFetcher = void 0;
-const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
-const QuestFetcher = ({ onFetchComplete, }) => {
-    const questlistPath = "./../../Quest Data/QuestList.json";
-    const fetchQuestList = async () => {
-        try {
-            const response = await fetch(questlistPath);
-            const questList = await response.json();
-            window.localStorage.setItem("questList", JSON.stringify(questList));
-            console.log("Quest list fetched and stored in localStorage.");
-            if (onFetchComplete) {
-                onFetchComplete(true);
-            }
-            window.location.reload();
-        }
-        catch (error) {
-            console.error("Was not able to fetch Quest List from Quests:", error);
-            if (onFetchComplete) {
-                onFetchComplete(false);
-            }
-        }
-    };
-    (0, react_1.useEffect)(() => {
-        const storedQuestList = window.localStorage.getItem("questList");
-        if (!storedQuestList) {
-            console.log("No quest list found in localStorage. Fetching...");
-            fetchQuestList();
-        }
-        else {
-            console.log("Quest list found in localStorage. Skipping fetch.");
-            if (onFetchComplete) {
-                onFetchComplete(true);
-            }
-        }
-    }, []);
-    return null;
-};
-exports.QuestFetcher = QuestFetcher;
-
-
-/***/ }),
-
-/***/ "./Pages/QuestPicker.tsx":
-/*!*******************************!*\
-  !*** ./Pages/QuestPicker.tsx ***!
-  \*******************************/
+/***/ "./Pages/Quest Selection/QuestPicker.tsx":
+/*!***********************************************!*\
+  !*** ./Pages/Quest Selection/QuestPicker.tsx ***!
+  \***********************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.QuestPick = void 0;
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
-const QuestAccordian_1 = __webpack_require__(/*! ./Components/QuestAccordian */ "./Pages/Components/QuestAccordian.tsx");
-const FetchQuestList_1 = __webpack_require__(/*! ./Data Fetchers/FetchQuestList */ "./Pages/Data Fetchers/FetchQuestList.tsx");
+const QuestAccordian_1 = __webpack_require__(/*! ./QuestAccordian */ "./Pages/Quest Selection/QuestAccordian.tsx");
+const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "../node_modules/react-router-dom/dist/index.js");
 const QuestPick = () => {
-    const handleFunction = () => {
-        console.log("Hello");
+    const navigate = (0, react_router_dom_1.useNavigate)();
+    const handleItemClick = (value) => {
+        navigate("/QuestDetails", { state: { questValue: value } });
     };
-    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(FetchQuestList_1.QuestFetcher, {}), (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, { onClick: handleFunction })] }));
+    return ((0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, { children: (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, { onItemClick: handleItemClick }) }));
 };
 exports.QuestPick = QuestPick;
 
