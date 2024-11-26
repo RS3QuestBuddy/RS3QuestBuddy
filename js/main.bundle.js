@@ -51544,7 +51544,7 @@ module.exports = __webpack_require__.p + "Assets/fonts/RS3Font.woff2";
   \*********************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "Assets/rs3buddyicon.png";
+module.exports = __webpack_require__.p + "./Assets/rs3buddyicon.png";
 
 /***/ })
 

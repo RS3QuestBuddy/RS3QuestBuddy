@@ -3,14 +3,14 @@
   \*****************************************************************************************************/
 @font-face {
   font-family: "RS3Font";
-  src: url(/Assets/fonts/RS3Font.woff2) format("woff2");
+  src: url("./../fonts/RS3Font.woff2") format("woff2");
   font-display: swap; /* Optional for better performance */
 }
 #root {
   font-family: RS3Font !important;
 }
 body {
-  background-image: url(/Assets/background.png);
+  background-image: url("./../background.png");
 }
 
 .AccordionContainer {
