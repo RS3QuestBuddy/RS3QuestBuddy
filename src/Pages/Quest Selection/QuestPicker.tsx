@@ -1,5 +1,5 @@
 import React from "react";
-import { Accordion } from "./QuestAccordian";
+import { Accordion } from "./QuestAccordion";
 import { useNavigate } from "react-router-dom";
 
 export const QuestPick: React.FC = () => {
@@ -9,7 +9,7 @@ export const QuestPick: React.FC = () => {
   };
   return (
     <>
-      <Accordion onItemClick={handleItemClick} />
+      <Accordion onClick={handleItemClick} />
     </>
   );
 };
