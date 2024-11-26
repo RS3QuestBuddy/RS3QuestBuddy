@@ -50542,6 +50542,7 @@ const app_1 = __importDefault(__webpack_require__(/*! ./app */ "./Networking/app
 const FontContextProvider_1 = __webpack_require__(/*! ../Pages/Font Wrapper/FontContextProvider */ "./Pages/Font Wrapper/FontContextProvider.tsx");
 __webpack_require__(/*! ./../Assets/css/index.css */ "./Assets/css/index.css");
 __webpack_require__(/*! ./../Assets/rs3buddyicon.png */ "./Assets/rs3buddyicon.png");
+__webpack_require__(/*! ./../Assets/fonts/RS3Font.woff2 */ "./Assets/fonts/RS3Font.woff2");
 const AltGuard = () => {
     const [override, setOverride] = (0, react_1.useState)(false);
     (0, react_1.useEffect)(() => {
@@ -50646,19 +50647,7 @@ const AccordionItem = ({ title, content }) => {
     const toggleOpen = () => {
         setIsOpen(!isOpen);
     };
-    return ((0, jsx_runtime_1.jsxs)("div", { style: {
-            margin: "10px 0",
-            border: "1px solid #ccc",
-            borderRadius: "5px",
-        }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: toggleOpen, style: {
-                    width: "100%",
-                    padding: "10px",
-                    background: "#f5f5f5",
-                    border: "none",
-                    textAlign: "left",
-                    cursor: "pointer",
-                    fontSize: "16px",
-                }, children: title }), isOpen && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
+    return ((0, jsx_runtime_1.jsxs)("div", { className: "AccordionContainer", children: [(0, jsx_runtime_1.jsx)("button", { onClick: toggleOpen, className: "AccordionItem", children: title }), isOpen && ((0, jsx_runtime_1.jsx)("div", { className: "AccordionContentContainer", children: (0, jsx_runtime_1.jsx)("ul", { className: "AccordionContent", children: Array.isArray(content) ? (content.map((item, index) => (0, jsx_runtime_1.jsx)("li", { children: item }, index))) : ((0, jsx_runtime_1.jsx)("li", { children: content })) }) }))] }));
 };
 const QuestDetailsAccordion = ({ selectedQuest, }) => {
     // State should always be an array of quests
@@ -50666,7 +50655,6 @@ const QuestDetailsAccordion = ({ selectedQuest, }) => {
     (0, react_1.useEffect)(() => {
         const loadQuestDetails = async () => {
             const details = await (0, fetchQuestDetails_1.fetchQuestDetails)();
-            // Check if the result is a single object, wrap it in an array if so
             if (Array.isArray(details)) {
                 setQuestDetails(details);
             }
@@ -50676,7 +50664,7 @@ const QuestDetailsAccordion = ({ selectedQuest, }) => {
     // Filter the quests based on the selectedQuest value (only if the quest name is defined)
     const filteredItems = questDetails?.filter((quest) => quest?.Quest?.startsWith(selectedQuest)) ||
         [];
-    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Requirement's", content: item.Requirements }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Start Point", content: item.StartPoint }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Is This a Members Quest?", content: item.MemberRequirement }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "How Long is This Quest?", content: item.OfficialLength }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Items You Definitely Need!", content: item.ItemsRequired }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Items You Might Need?", content: item.Recommended }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Enemies To Look Out For!", content: item.EnemiesToDefeat + "," }, index))) })] }));
+    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Requirement's", content: item.Requirements.map((req, reqIndex) => ((0, jsx_runtime_1.jsx)("div", { children: req }, reqIndex))) }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Start Point", content: item.StartPoint }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Is This a Members Quest?", content: item.MemberRequirement }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "How Long is This Quest?", content: item.OfficialLength }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Items You Definitely Need!", content: item.ItemsRequired }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Items You Might Need?", content: item.Recommended }, index))) }), (0, jsx_runtime_1.jsx)("div", { children: filteredItems.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: "Enemies To Look Out For!", content: item.EnemiesToDefeat }, index))) })] }));
 };
 exports["default"] = QuestDetailsAccordion;
 
@@ -50748,7 +50736,7 @@ const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modu
 const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
 const FetchQuestList_1 = __webpack_require__(/*! ./FetchQuestList */ "./Pages/Quest Selection/FetchQuestList.ts");
 const AccordionItem = ({ title, content, onClick, }) => {
-    return ((0, jsx_runtime_1.jsxs)("div", { className: "DivQuestNameAccord", children: [(0, jsx_runtime_1.jsx)("button", { onClick: () => onClick(title), className: "QuestNameAccord", children: title }), content && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
+    return ((0, jsx_runtime_1.jsxs)("div", { className: "AccordionContainer", children: [(0, jsx_runtime_1.jsx)("button", { onClick: () => onClick(title), className: "AccordionItem", children: title }), content && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
 };
 const Accordion = ({ onItemClick, }) => {
     const [questList, setQuestList] = (0, react_1.useState)(null);
@@ -51537,6 +51525,16 @@ function createLineSplittingTransform() {
 }
 exports.createLineSplittingTransform = createLineSplittingTransform;
 
+
+/***/ }),
+
+/***/ "./Assets/fonts/RS3Font.woff2":
+/*!************************************!*\
+  !*** ./Assets/fonts/RS3Font.woff2 ***!
+  \************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "Assets/fonts/RS3Font.woff2";
 
 /***/ }),
 

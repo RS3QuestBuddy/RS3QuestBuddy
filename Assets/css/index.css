@@ -1,10 +1,19 @@
 /*!*****************************************************************************************************!*\
   !*** css ../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./Assets/css/index.css ***!
   \*****************************************************************************************************/
-body {
-  background-image: url("./../background.png");
+@font-face {
+  font-family: "RS3Font";
+  src: url(/Assets/fonts/RS3Font.woff2) format("woff2");
+  font-display: swap; /* Optional for better performance */
 }
-.DivQuestNameAccord {
+#root {
+  font-family: RS3Font !important;
+}
+body {
+  background-image: url(/Assets/background.png);
+}
+
+.AccordionContainer {
   margin-bottom: 0.5em;
   align-items: center;
   width: 100%;
@@ -13,10 +22,10 @@ body {
   border-radius: 0.25em;
 }
 
-.DivQuestNameAccord:hover {
+.AccordionContainer:hover {
   background-color: rgb(39, 103, 139);
 }
-.QuestNameAccord {
+.AccordionItem {
   color: white;
   background-color: rgba(0, 0, 0, 0);
   border: none;
@@ -24,6 +33,17 @@ body {
   width: 100%;
   padding: 10px;
   cursor: pointer;
+}
+.AccordionContentContainer {
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+.AccordionContent {
+  color: white;
+  list-style-type: none;
+  margin-bottom: 0.625em;
+  text-align: center;
+  display: block;
 }
 
 
