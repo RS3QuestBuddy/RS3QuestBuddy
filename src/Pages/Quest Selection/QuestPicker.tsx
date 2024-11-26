@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Accordion } from "./QuestAccordian";
-import { QuestFetcher } from "./FetchQuestList";
+import { useNavigate } from "react-router-dom";
 
 export const QuestPick: React.FC = () => {
-  const handleFunction = () => {
-    console.log("Hello");
+  const navigate = useNavigate();
+  const handleItemClick = (value: string) => {
+    navigate("/QuestDetails", { state: { questValue: value } });
   };
-
   return (
     <>
-      <QuestFetcher />
-
-      <Accordion onClick={handleFunction} />
+      <Accordion onItemClick={handleItemClick} />
     </>
   );
 };

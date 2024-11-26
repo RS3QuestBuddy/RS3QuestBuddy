@@ -1,5 +1,6 @@
 import { Routes, Route, HashRouter, Navigate, Outlet } from "react-router-dom";
 import { QuestPick } from "./../Pages/Quest Selection/QuestPicker";
+import { QuestDetails } from "./../Pages/Quest Details/QuestDetails";
 function App() {
   return (
     <>
@@ -10,7 +11,7 @@ function App() {
             <Route index element={<QuestPick />} />
           </Route>
 
-          <Route path="/QuestPage" element={""} />
+          <Route path="/QuestDetails" element={<QuestDetails />} />
           <Route path="/*" element={<Navigate to="/" />} />
           {/* Navigate to the default route if no URL matched */}
         </Routes>

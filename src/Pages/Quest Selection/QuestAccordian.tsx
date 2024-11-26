@@ -1,33 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { questlist } from "./FetchQuestList";
+import { fetchQuestList, questlist } from "./FetchQuestList";
 
-type AccordionItemProps = {
-  title: string | null;
-  content: string | null;
-  onClick?: (title: string | null) => void; // Add optional onClick prop
-};
+interface AccordionItemProps {
+  title: string;
+  content?: string | null;
+  onClick: (value: string) => void;
+}
 
 const AccordionItem: React.FC<AccordionItemProps> = ({
   title,
   content,
   onClick,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleAccordion = () => {
-    setIsOpen(!isOpen);
-    if (onClick) {
-      onClick(title); // Trigger the callback when toggled
-    }
-  };
-
   return (
     <div className="DivQuestNameAccord">
-      <button onClick={toggleAccordion} className="QuestNameAccord">
+      <button
+        onClick={() => onClick(title)} // Emit the title on click
+        className="QuestNameAccord"
+      >
         {title}
       </button>
 
-      {isOpen && content && (
+      {content && (
         <div style={{ padding: "10px", borderTop: "1px solid #ccc" }}>
           <p>{content}</p>
         </div>
@@ -36,24 +30,21 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   );
 };
 
-type AccordionProps = {
-  onClick?: (title: string | null) => void; // Add optional onClick prop for Accordion
-};
-
-export const Accordion: React.FC<AccordionProps> = ({ onClick }) => {
-  const [questList, setQuestList] = useState<questlist | null>(null); // Ensure initial state is null
-  const [isClickActive, setIsClickActive] = useState(false);
+export const Accordion: React.FC<{ onItemClick: (value: string) => void }> = ({
+  onItemClick,
+}) => {
+  const [questList, setQuestList] = useState<questlist | null>(null);
 
   useEffect(() => {
-    const jQuestList = window.localStorage.getItem("questList");
-    if (jQuestList !== null) {
-      const parsedList: questlist = JSON.parse(jQuestList);
-      setQuestList(parsedList);
-      setIsClickActive(true);
-    } else {
-      setIsClickActive(false);
-    }
-  }, [isClickActive]);
+    const loadQuestList = async () => {
+      const ql = await fetchQuestList();
+      if (ql) {
+        setQuestList(ql);
+      }
+    };
+
+    loadQuestList();
+  }, []);
 
   return (
     <div>
@@ -62,12 +53,12 @@ export const Accordion: React.FC<AccordionProps> = ({ onClick }) => {
           <AccordionItem
             key={index}
             title={item}
-            content={null} // Set content appropriately
-            onClick={isClickActive ? onClick : undefined} // Use undefined instead of null
+            content={null}
+            onClick={(value) => onItemClick(value)} // Pass the clicked value up
           />
         ))
       ) : (
-        <p>No quests available.</p> // Handle empty or undefined state
+        <p>No quests available.</p>
       )}
     </div>
   );
