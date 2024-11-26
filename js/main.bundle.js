@@ -50718,7 +50718,7 @@ exports.fetchQuestDetails = fetchQuestDetails;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.fetchQuestList = void 0;
-const questlistPath = "./../../Quest Data/QuestList.json";
+const questlistPath = "/Quest Data/QuestList.json";
 const fetchQuestList = async () => {
     try {
         const response = await fetch(questlistPath);
