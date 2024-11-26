@@ -50692,7 +50692,7 @@ exports["default"] = QuestDetailsAccordion;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.fetchQuestDetails = void 0;
-const questDetailPath = "./../../Quest Data/QuestDetails.json";
+const questDetailPath = "./Quest Data/QuestDetails.json";
 const fetchQuestDetails = async () => {
     try {
         const response = await fetch(questDetailPath);
@@ -50718,7 +50718,7 @@ exports.fetchQuestDetails = fetchQuestDetails;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.fetchQuestList = void 0;
-const questlistPath = "/Quest Data/QuestList.json";
+const questlistPath = "./Quest Data/QuestList.json";
 const fetchQuestList = async () => {
     try {
         const response = await fetch(questlistPath);
