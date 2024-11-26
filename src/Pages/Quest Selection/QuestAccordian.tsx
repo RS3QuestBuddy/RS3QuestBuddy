@@ -13,10 +13,10 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   onClick,
 }) => {
   return (
-    <div className="DivQuestNameAccord">
+    <div className="AccordionContainer">
       <button
         onClick={() => onClick(title)} // Emit the title on click
-        className="QuestNameAccord"
+        className="AccordionItem"
       >
         {title}
       </button>

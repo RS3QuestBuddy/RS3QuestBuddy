@@ -1,10 +1,8 @@
-import { useState } from "react";
-
 export type questlist = {
   quests: string[];
 };
 
-const questlistPath = "./../../Quest Data/QuestList.json";
+const questlistPath = "./Quest Data/QuestList.json";
 
 export const fetchQuestList = async (): Promise<questlist | null> => {
   try {

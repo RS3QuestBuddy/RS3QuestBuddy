@@ -5,6 +5,7 @@ import App from "./app";
 import { FontSizeProvider } from "../Pages/Font Wrapper/FontContextProvider";
 import "./../Assets/css/index.css";
 import "./../Assets/rs3buddyicon.png";
+import "./../Assets/fonts/RS3Font.woff2";
 const AltGuard = () => {
   const [override, setOverride] = useState(false);
   useEffect(() => {

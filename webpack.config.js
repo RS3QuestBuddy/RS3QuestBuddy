@@ -10,7 +10,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "js/[name].bundle.js",
-    publicPath: "/", // Base path for all assets
+    publicPath: "/",
   },
   devtool: "source-map",
   mode: "development",
@@ -40,7 +40,7 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              url: false, // Preserve original URLs
+              url: true,
             },
           },
         ],
@@ -52,7 +52,7 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              url: false, // Preserve original URLs
+              url: true,
             },
           },
           "sass-loader",
@@ -62,14 +62,21 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|webp)$/i,
         type: "asset/resource",
         generator: {
-          filename: "[path][name][ext]", // Preserve folder structure
+          filename: "Assets/[name][ext]",
+        },
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "Assets/fonts/[name][ext]", // Save fonts in the correct folder
         },
       },
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "Networking/index.css",
+      filename: "Assets/css/index.css",
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src/index.html"),

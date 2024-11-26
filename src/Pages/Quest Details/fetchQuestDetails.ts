@@ -8,7 +8,7 @@ export type QuestDetailsType = {
   OfficialLength: string;
   Recommended: string[];
 };
-const questDetailPath = "./../../Quest Data/QuestDetails.json";
+const questDetailPath = "./Quest Data/QuestDetails.json";
 
 export const fetchQuestDetails = async (): Promise<QuestDetailsType | null> => {
   try {

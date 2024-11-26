@@ -3,7 +3,7 @@ import { fetchQuestDetails, QuestDetailsType } from "./fetchQuestDetails";
 
 interface AccordionItemProps {
   title: string;
-  content: string | string[];
+  content: React.ReactNode;
 }
 
 interface QuestDetailsAccordionProps {
@@ -18,30 +18,19 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, content }) => {
   };
 
   return (
-    <div
-      style={{
-        margin: "10px 0",
-        border: "1px solid #ccc",
-        borderRadius: "5px",
-      }}
-    >
-      <button
-        onClick={toggleOpen}
-        style={{
-          width: "100%",
-          padding: "10px",
-          background: "#f5f5f5",
-          border: "none",
-          textAlign: "left",
-          cursor: "pointer",
-          fontSize: "16px",
-        }}
-      >
+    <div className="AccordionContainer">
+      <button onClick={toggleOpen} className="AccordionItem">
         {title}
       </button>
       {isOpen && (
-        <div style={{ padding: "10px", borderTop: "1px solid #ccc" }}>
-          <p>{content}</p>
+        <div className="AccordionContentContainer">
+          <ul className="AccordionContent">
+            {Array.isArray(content) ? (
+              content.map((item, index) => <li key={index}>{item}</li>)
+            ) : (
+              <li>{content}</li>
+            )}
+          </ul>
         </div>
       )}
     </div>
@@ -57,8 +46,6 @@ const QuestDetailsAccordion: React.FC<QuestDetailsAccordionProps> = ({
   useEffect(() => {
     const loadQuestDetails = async () => {
       const details = await fetchQuestDetails();
-
-      // Check if the result is a single object, wrap it in an array if so
       if (Array.isArray(details)) {
         setQuestDetails(details);
       }
@@ -79,7 +66,9 @@ const QuestDetailsAccordion: React.FC<QuestDetailsAccordionProps> = ({
           <AccordionItem
             key={index}
             title={"Requirement's"}
-            content={item.Requirements}
+            content={item.Requirements.map((req, reqIndex) => (
+              <div key={reqIndex}>{req}</div>
+            ))}
           />
         ))}
       </div>
