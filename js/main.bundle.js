@@ -50735,11 +50735,12 @@ exports.Accordion = void 0;
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
 const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
 const FetchQuestList_1 = __webpack_require__(/*! ./FetchQuestList */ "./Pages/Quest Selection/FetchQuestList.ts");
-const AccordionItem = ({ title, content, onClick, }) => {
-    return ((0, jsx_runtime_1.jsxs)("div", { className: "AccordionContainer", children: [(0, jsx_runtime_1.jsx)("button", { onClick: () => onClick(title), className: "AccordionItem", children: title }), content && ((0, jsx_runtime_1.jsx)("div", { style: { padding: "10px", borderTop: "1px solid #ccc" }, children: (0, jsx_runtime_1.jsx)("p", { children: content }) }))] }));
+const AccordionItem = ({ title, onClick }) => {
+    return ((0, jsx_runtime_1.jsx)("div", { className: "AccordionContainer", children: (0, jsx_runtime_1.jsx)("button", { onClick: () => onClick(title), className: "AccordionItem", children: title }) }));
 };
-const Accordion = ({ onItemClick, }) => {
+const Accordion = ({ onClick, searchQuery, sorted }) => {
     const [questList, setQuestList] = (0, react_1.useState)(null);
+    const filteredQuests = questList?.quests.filter((quest) => quest.toLowerCase().includes(searchQuery?.toLowerCase() ?? ""));
     (0, react_1.useEffect)(() => {
         const loadQuestList = async () => {
             const ql = await (0, FetchQuestList_1.fetchQuestList)();
@@ -50749,7 +50750,9 @@ const Accordion = ({ onItemClick, }) => {
         };
         loadQuestList();
     }, []);
-    return ((0, jsx_runtime_1.jsx)("div", { children: questList?.quests?.length ? (questList.quests.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: item, content: null, onClick: (value) => onItemClick(value) }, index)))) : ((0, jsx_runtime_1.jsx)("p", { children: "No quests available." })) }));
+    return ((0, jsx_runtime_1.jsx)("div", { children: !sorted && questList?.quests?.length
+            ? questList.quests.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: item, onClick: (value) => onClick(value) }, index)))
+            : filteredQuests?.map((item, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: item, onClick: (value) => onClick(value) }, index))) }));
 };
 exports.Accordion = Accordion;
 
@@ -50766,16 +50769,44 @@ exports.Accordion = Accordion;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.QuestPick = void 0;
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
 const QuestAccordian_1 = __webpack_require__(/*! ./QuestAccordian */ "./Pages/Quest Selection/QuestAccordian.tsx");
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "../node_modules/react-router-dom/dist/index.js");
+const Button_1 = __webpack_require__(/*! ./../Shared Components/Button */ "./Pages/Shared Components/Button.tsx");
 const QuestPick = () => {
     const navigate = (0, react_router_dom_1.useNavigate)();
     const handleItemClick = (value) => {
         navigate("/QuestDetails", { state: { questValue: value } });
     };
-    return ((0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, { children: (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, { onItemClick: handleItemClick }) }));
+    const [searchQuery, setSearchQuery] = (0, react_1.useState)("");
+    let sort = (0, react_1.useRef)(false);
+    const TestOnClicks = () => {
+        console.log("Hello");
+    };
+    if (searchQuery.length > 0) {
+        sort.current = true;
+    }
+    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsxs)("div", { className: "InputGroup", children: [(0, jsx_runtime_1.jsxs)("div", { className: "SearchPlayerInputContainer", children: [(0, jsx_runtime_1.jsx)("p", { className: "SearchPlayerLabel", children: "Search Player" }), (0, jsx_runtime_1.jsx)("input", { className: "SearchPlayerInput" })] }), (0, jsx_runtime_1.jsxs)("div", { className: "SearchQuestInputContainer", children: [(0, jsx_runtime_1.jsx)("p", { className: "SearchQuestLabel", children: "Search Quest" }), (0, jsx_runtime_1.jsx)("input", { className: "SearchQuestInput", onChange: (event) => setSearchQuery(event.currentTarget.value) })] })] }), (0, jsx_runtime_1.jsxs)("div", { className: "ButtonGroup", children: [(0, jsx_runtime_1.jsx)(Button_1.Button, { label: "Search Player", onClick: TestOnClicks, divClassName: "ButtonRootDivContainer", className: "ButtonRoot" }), (0, jsx_runtime_1.jsx)(Button_1.Button, { label: "Sort Out Completed Quests", divClassName: "ButtonRootDivContainer", className: "ButtonRoot", onClick: TestOnClicks })] }), (0, jsx_runtime_1.jsx)("div", { className: "AccordionParentDiv", children: (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, { onClick: handleItemClick, searchQuery: searchQuery, sorted: sort.current }) })] }));
 };
 exports.QuestPick = QuestPick;
+
+
+/***/ }),
+
+/***/ "./Pages/Shared Components/Button.tsx":
+/*!********************************************!*\
+  !*** ./Pages/Shared Components/Button.tsx ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Button = void 0;
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+const Button = ({ onClick, label = "Click me", className = "", divClassName = "", disabled = false, }) => {
+    return ((0, jsx_runtime_1.jsx)("div", { className: divClassName, children: (0, jsx_runtime_1.jsx)("button", { className: className, onClick: onClick, disabled: disabled, children: label }) }));
+};
+exports.Button = Button;
 
 
 /***/ }),
