@@ -17,36 +17,40 @@ export const QuestPick: React.FC = () => {
   }
   return (
     <>
-      <div>
+      <div className="InputGroup">
         <div className="SearchPlayerInputContainer">
           <p className="SearchPlayerLabel">Search Player</p>
-          <input className="SearchPlayerInput"></input>
+          <input className="SearchPlayerInput" />
         </div>
         <div className="SearchQuestInputContainer">
           <p className="SearchQuestLabel">Search Quest</p>
           <input
             className="SearchQuestInput"
             onChange={(event) => setSearchQuery(event.currentTarget.value)}
-          ></input>
+          />
         </div>
       </div>
-      <Button
-        label="Search Player"
-        onClick={TestOnClicks}
-        divClassName="SearchPlayerButtonDiv"
-        className="SearchPlayerButton"
-      />
-      <Button
-        label="Sort Out Completed Quests"
-        divClassName="SearchQuestButtonDiv"
-        className="SearchQuestButton"
-        onClick={TestOnClicks}
-      />
-      <Accordion
-        onItemClick={handleItemClick}
-        searchQuery={searchQuery}
-        sorted={sort.current}
-      />
+      <div className="ButtonGroup">
+        <Button
+          label="Search Player"
+          onClick={TestOnClicks}
+          divClassName="ButtonRootDivContainer"
+          className="ButtonRoot"
+        />
+        <Button
+          label="Sort Out Completed Quests"
+          divClassName="ButtonRootDivContainer"
+          className="ButtonRoot"
+          onClick={TestOnClicks}
+        />
+      </div>
+      <div className="AccordionParentDiv">
+        <Accordion
+          onClick={handleItemClick}
+          searchQuery={searchQuery}
+          sorted={sort.current}
+        />
+      </div>
     </>
   );
 };

@@ -3,15 +3,10 @@ import { fetchQuestList, questlist } from "./FetchQuestList";
 
 interface AccordionItemProps {
   title: string;
-
   onClick: (value: string) => void;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({
-  title,
-
-  onClick,
-}) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ title, onClick }) => {
   return (
     <div className="AccordionContainer">
       <button
@@ -25,10 +20,10 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 };
 
 export const Accordion: React.FC<{
-  onItemClick: (value: string) => void;
+  onClick: (value: string) => void;
   searchQuery?: string;
   sorted?: boolean;
-}> = ({ onItemClick, searchQuery, sorted }) => {
+}> = ({ onClick, searchQuery, sorted }) => {
   const [questList, setQuestList] = useState<questlist | null>(null);
   const filteredQuests = questList?.quests.filter((quest) =>
     quest.toLowerCase().includes(searchQuery?.toLowerCase() ?? "")
@@ -51,14 +46,14 @@ export const Accordion: React.FC<{
             <AccordionItem
               key={index}
               title={item}
-              onClick={(value) => onItemClick(value)} // Pass the clicked value up
+              onClick={(value) => onClick(value)} // Pass the clicked value up
             />
           ))
         : filteredQuests?.map((item, index) => (
             <AccordionItem
               key={index}
               title={item}
-              onClick={(value) => onItemClick(value)} // Pass the clicked value up
+              onClick={(value) => onClick(value)} // Pass the clicked value up
             />
           ))}
     </div>

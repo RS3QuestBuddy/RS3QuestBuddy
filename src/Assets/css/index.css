@@ -1,15 +1,21 @@
+/*Root CSS Styles---------------------------------*/
 @font-face {
   font-family: "RS3Font";
   src: url("./../fonts/RS3Font.woff2") format("woff2");
-  font-display: swap; /* Optional for better performance */
+  font-display: swap;
 }
 #root {
   font-family: RS3Font !important;
 }
 body {
+  display: block;
   background-image: url("./../background.png");
 }
-
+/*--------------------------------------------------*/
+/*Accordion Root Styles-----------------------------*/
+.AccordionParentDiv {
+  margin-top: 1em;
+}
 .AccordionContainer {
   margin-bottom: 0.5em;
   align-items: center;
@@ -41,4 +47,71 @@ body {
   margin-bottom: 0.625em;
   text-align: center;
   display: block;
+}
+/*--------------------------------------------------*/
+/*Button Root Styles*/
+.ButtonRootDivContainer {
+  border-radius: 0.5em;
+}
+.ButtonRoot {
+  font-size: 1em;
+  padding: 5px 10px;
+  display: inline-block;
+  background-color: transparent;
+  border: 2px solid #f0f1f3;
+  color: #bcc0c5;
+  border-radius: 0.5em;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+.ButtonRoot:hover {
+  background-color: #27678b;
+  color: #f1f8fc;
+}
+.ButtonGroup {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.5em;
+}
+/*Input Root Styles*/
+.InputGroup {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.5em;
+}
+
+.SearchPlayerInputContainer,
+.SearchQuestInputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  flex: 1;
+  min-width: 200px;
+}
+.SearchPlayerLabel,
+.SearchQuestLabel {
+  color: #f0f2f5;
+}
+.SearchPlayerInput,
+.SearchQuestInput {
+  font-size: 1em;
+  padding: 10px 20px;
+  border: 2px solid #f1f2f3;
+  border-radius: 0.5em;
+  background-color: transparent;
+  color: #007bff;
+  outline: none;
+  transition: background-color 0.3s, color 0.3s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.SearchPlayerInput:hover,
+.SearchQuestInput:hover,
+.SearchPlayerInput:focus,
+.SearchQuestInput:focus {
+  background-color: #27678b; /* Background on hover/focus */
+  color: #ffffff; /* Text color on hover/focus */
 }
