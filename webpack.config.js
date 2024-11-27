@@ -40,7 +40,7 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              url: true,
+              url: false,
             },
           },
         ],
@@ -52,7 +52,7 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              url: true,
+              url: false,
             },
           },
           "sass-loader",
@@ -62,7 +62,7 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|webp)$/i,
         type: "asset/resource",
         generator: {
-          filename: "Assets/[name][ext]",
+          filename: "./Assets/[name][ext]",
         },
       },
       {

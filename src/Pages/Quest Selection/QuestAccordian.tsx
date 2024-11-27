@@ -3,13 +3,13 @@ import { fetchQuestList, questlist } from "./FetchQuestList";
 
 interface AccordionItemProps {
   title: string;
-  content?: string | null;
+
   onClick: (value: string) => void;
 }
 
 const AccordionItem: React.FC<AccordionItemProps> = ({
   title,
-  content,
+
   onClick,
 }) => {
   return (
@@ -20,21 +20,19 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
       >
         {title}
       </button>
-
-      {content && (
-        <div style={{ padding: "10px", borderTop: "1px solid #ccc" }}>
-          <p>{content}</p>
-        </div>
-      )}
     </div>
   );
 };
 
-export const Accordion: React.FC<{ onItemClick: (value: string) => void }> = ({
-  onItemClick,
-}) => {
+export const Accordion: React.FC<{
+  onItemClick: (value: string) => void;
+  searchQuery?: string;
+  sorted?: boolean;
+}> = ({ onItemClick, searchQuery, sorted }) => {
   const [questList, setQuestList] = useState<questlist | null>(null);
-
+  const filteredQuests = questList?.quests.filter((quest) =>
+    quest.toLowerCase().includes(searchQuery?.toLowerCase() ?? "")
+  );
   useEffect(() => {
     const loadQuestList = async () => {
       const ql = await fetchQuestList();
@@ -48,18 +46,21 @@ export const Accordion: React.FC<{ onItemClick: (value: string) => void }> = ({
 
   return (
     <div>
-      {questList?.quests?.length ? (
-        questList.quests.map((item, index) => (
-          <AccordionItem
-            key={index}
-            title={item}
-            content={null}
-            onClick={(value) => onItemClick(value)} // Pass the clicked value up
-          />
-        ))
-      ) : (
-        <p>No quests available.</p>
-      )}
+      {!sorted && questList?.quests?.length
+        ? questList.quests.map((item, index) => (
+            <AccordionItem
+              key={index}
+              title={item}
+              onClick={(value) => onItemClick(value)} // Pass the clicked value up
+            />
+          ))
+        : filteredQuests?.map((item, index) => (
+            <AccordionItem
+              key={index}
+              title={item}
+              onClick={(value) => onItemClick(value)} // Pass the clicked value up
+            />
+          ))}
     </div>
   );
 };
