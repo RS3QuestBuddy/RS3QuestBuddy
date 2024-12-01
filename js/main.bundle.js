@@ -50773,22 +50773,107 @@ const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js
 const QuestAccordian_1 = __webpack_require__(/*! ./QuestAccordian */ "./Pages/Quest Selection/QuestAccordian.tsx");
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "../node_modules/react-router-dom/dist/index.js");
 const Button_1 = __webpack_require__(/*! ./../Shared Components/Button */ "./Pages/Shared Components/Button.tsx");
+const usePlayerStats_1 = __webpack_require__(/*! ./usePlayerStats */ "./Pages/Quest Selection/usePlayerStats.ts");
+const LoadingComponent_1 = __webpack_require__(/*! ./../Shared Components/LoadingComponent */ "./Pages/Shared Components/LoadingComponent.tsx");
 const QuestPick = () => {
     const navigate = (0, react_router_dom_1.useNavigate)();
+    const [playerFound, setPlayerFound] = (0, react_1.useState)(false);
+    const { playerStats, playerQuests, fetchPlayerStats, fetchPlayerQuests, isLoading, hasError, } = (0, usePlayerStats_1.useFetchPlayerInfo)();
     const handleItemClick = (value) => {
         navigate("/QuestDetails", { state: { questValue: value } });
     };
     const [searchQuery, setSearchQuery] = (0, react_1.useState)("");
     let sort = (0, react_1.useRef)(false);
-    const TestOnClicks = () => {
-        console.log("Hello");
-    };
     if (searchQuery.length > 0) {
         sort.current = true;
     }
-    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsxs)("div", { className: "InputGroup", children: [(0, jsx_runtime_1.jsxs)("div", { className: "SearchPlayerInputContainer", children: [(0, jsx_runtime_1.jsx)("p", { className: "SearchPlayerLabel", children: "Search Player" }), (0, jsx_runtime_1.jsx)("input", { className: "SearchPlayerInput" })] }), (0, jsx_runtime_1.jsxs)("div", { className: "SearchQuestInputContainer", children: [(0, jsx_runtime_1.jsx)("p", { className: "SearchQuestLabel", children: "Search Quest" }), (0, jsx_runtime_1.jsx)("input", { className: "SearchQuestInput", onChange: (event) => setSearchQuery(event.currentTarget.value) })] })] }), (0, jsx_runtime_1.jsxs)("div", { className: "ButtonGroup", children: [(0, jsx_runtime_1.jsx)(Button_1.Button, { label: "Search Player", onClick: TestOnClicks, divClassName: "ButtonRootDivContainer", className: "ButtonRoot" }), (0, jsx_runtime_1.jsx)(Button_1.Button, { label: "Sort Out Completed Quests", divClassName: "ButtonRootDivContainer", className: "ButtonRoot", onClick: TestOnClicks })] }), (0, jsx_runtime_1.jsx)("div", { className: "AccordionParentDiv", children: (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, { onClick: handleItemClick, searchQuery: searchQuery, sorted: sort.current }) })] }));
+    const handlePlayerSearch = async (playerSearch) => {
+        if (isLoading)
+            return; // Prevent multiple fetches
+        if (playerSearch.length <= 0)
+            return;
+        await fetchPlayerStats(playerSearch);
+        await fetchPlayerQuests(playerSearch);
+    };
+    (0, react_1.useEffect)(() => {
+        if (playerStats !== "null" && playerQuests !== null) {
+            setPlayerFound(true);
+        }
+    }, [playerQuests, playerStats]);
+    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsxs)("div", { className: "InputGroup", children: [(0, jsx_runtime_1.jsxs)("div", { className: "SearchPlayerInputContainer", children: [(0, jsx_runtime_1.jsx)("p", { className: "SearchPlayerLabel", children: "Search Player" }), isLoading && ((0, jsx_runtime_1.jsx)(LoadingComponent_1.CircularProgress, { size: 20, color: "#bf3651", className: "InputSpinner" })), (0, jsx_runtime_1.jsx)("input", { className: "SearchPlayerInput", onKeyDown: (e) => {
+                                    if (e.key === "Enter") {
+                                        handlePlayerSearch(e.currentTarget.value);
+                                    }
+                                }, placeholder: "Player Name Here", style: {
+                                    color: !playerFound ? "#007bff" : "#38b070", // Change text color dynamically
+                                } })] }), (0, jsx_runtime_1.jsxs)("div", { className: "SearchQuestInputContainer", children: [(0, jsx_runtime_1.jsx)("p", { className: "SearchQuestLabel", children: "Search Quest" }), (0, jsx_runtime_1.jsx)("input", { className: "SearchQuestInput", onChange: (event) => setSearchQuery(event.currentTarget.value) })] })] }), (0, jsx_runtime_1.jsxs)("div", { className: "ButtonGroup", children: [(0, jsx_runtime_1.jsx)(Button_1.Button, { label: "Search Player", divClassName: "ButtonRootDivContainer", className: "ButtonRoot", disabled: isLoading }), (0, jsx_runtime_1.jsx)(Button_1.Button, { label: "Sort Out Completed Quests", divClassName: "ButtonRootDivContainer", className: "ButtonRoot" })] }), (0, jsx_runtime_1.jsx)("div", { className: "AccordionParentDiv", children: (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, { onClick: handleItemClick, searchQuery: searchQuery, sorted: sort.current }) })] }));
 };
 exports.QuestPick = QuestPick;
+
+
+/***/ }),
+
+/***/ "./Pages/Quest Selection/usePlayerStats.ts":
+/*!*************************************************!*\
+  !*** ./Pages/Quest Selection/usePlayerStats.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.useFetchPlayerInfo = void 0;
+const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+const useFetchPlayerInfo = () => {
+    const [playerStats, setPlayerStats] = (0, react_1.useState)("null");
+    const [playerQuests, setPlayerQuests] = (0, react_1.useState)(null);
+    const [isLoading, setIsLoading] = (0, react_1.useState)(false);
+    const [hasError, setHasError] = (0, react_1.useState)(false);
+    const PlayerQuestSite = "https://corsproxy.io/?" +
+        encodeURIComponent("https://apps.runescape.com/runemetrics/quests");
+    const PlayerStatsSite = "https://corsproxy.io/?" +
+        encodeURIComponent("https://secure.runescape.com/m=hiscore/index_lite.ws?player=");
+    const fetchPlayerStats = async (playerName) => {
+        try {
+            setIsLoading(true);
+            const response = await fetch(PlayerStatsSite + `${playerName}`);
+            const playerInfo = await response.text();
+            console.log(playerInfo);
+            setPlayerStats(playerInfo);
+            setHasError(false);
+            setIsLoading(false);
+        }
+        catch (error) {
+            console.error("Was not able to fetch player stats", error);
+            setIsLoading(false);
+            setHasError(true);
+        }
+    };
+    const fetchPlayerQuests = async (playerName) => {
+        try {
+            setIsLoading(true);
+            const response = await fetch(PlayerQuestSite + `?user=${playerName}`);
+            const playerIQuests = await response.json();
+            setPlayerQuests(playerIQuests);
+            console.log(playerIQuests);
+            setHasError(false);
+            setIsLoading(false);
+        }
+        catch (error) {
+            console.error("Was not able to fetch Quest from RuneMetrics:", error);
+            setIsLoading(false);
+            setHasError(true);
+        }
+    };
+    return {
+        playerStats,
+        playerQuests,
+        fetchPlayerStats,
+        fetchPlayerQuests,
+        isLoading,
+        hasError,
+    };
+};
+exports.useFetchPlayerInfo = useFetchPlayerInfo;
 
 
 /***/ }),
@@ -50807,6 +50892,28 @@ const Button = ({ onClick, label = "Click me", className = "", divClassName = ""
     return ((0, jsx_runtime_1.jsx)("div", { className: divClassName, children: (0, jsx_runtime_1.jsx)("button", { className: className, onClick: onClick, disabled: disabled, children: label }) }));
 };
 exports.Button = Button;
+
+
+/***/ }),
+
+/***/ "./Pages/Shared Components/LoadingComponent.tsx":
+/*!******************************************************!*\
+  !*** ./Pages/Shared Components/LoadingComponent.tsx ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CircularProgress = void 0;
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+const CircularProgress = ({ size = 40, color = "#3498db", className, }) => {
+    return ((0, jsx_runtime_1.jsx)("div", { className: `circular-progress-wrapper ${className || ""}`, children: (0, jsx_runtime_1.jsx)("div", { className: "circular-progress", style: {
+                width: size,
+                height: size,
+                borderColor: `${color} transparent transparent transparent`,
+            } }) }));
+};
+exports.CircularProgress = CircularProgress;
 
 
 /***/ }),
