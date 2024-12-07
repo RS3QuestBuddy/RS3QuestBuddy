@@ -2,19 +2,28 @@ import React, { useEffect, useRef, useState } from "react";
 import { Accordion } from "./QuestAccordian";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./../Shared Components/Button";
-import { useFetchPlayerInfo } from "./usePlayerStats";
+import { useFetchPlayerInfo } from "./usePlayerQuests";
 import { CircularProgress } from "./../Shared Components/LoadingComponent";
+import { usePlayerSortStats } from "../Quest Details/PlayerStatsSort";
+import { useSortedPlayerQuests } from "./sortPlayerQuests";
+import SettingsModal from "./../Settings/Settings";
 export const QuestPick: React.FC = () => {
   const navigate = useNavigate();
   const [playerFound, setPlayerFound] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+  const { playerQuests, fetchPlayerQuests, isLoading } = useFetchPlayerInfo();
   const {
-    playerStats,
-    playerQuests,
-    fetchPlayerStats,
-    fetchPlayerQuests,
-    isLoading,
-    hasError,
-  } = useFetchPlayerInfo();
+    completedPlayerQuests,
+    notStartedPlayerQuests,
+    startedPlayerQuests,
+    eligiblePlayerQuests,
+    notEligiblePlayerQuests,
+    sortPlayerQuests,
+  } = useSortedPlayerQuests();
+  const { sortedPlayerStats, filterPlayerStats } = usePlayerSortStats();
   const handleItemClick = (value: string) => {
     navigate("/QuestDetails", { state: { questValue: value } });
   };
@@ -27,14 +36,18 @@ export const QuestPick: React.FC = () => {
   const handlePlayerSearch = async (playerSearch: string) => {
     if (isLoading) return; // Prevent multiple fetches
     if (playerSearch.length <= 0) return;
-    await fetchPlayerStats(playerSearch);
     await fetchPlayerQuests(playerSearch);
+    if (playerQuests.current !== null) {
+      sortPlayerQuests(playerQuests.current);
+      console.log(completedPlayerQuests.current);
+    }
   };
+
   useEffect(() => {
-    if (playerStats !== "null" && playerQuests !== null) {
+    if (playerQuests !== null) {
       setPlayerFound(true);
     }
-  }, [playerQuests, playerStats]);
+  }, [playerQuests]);
   return (
     <>
       <div className="InputGroup">
@@ -81,6 +94,10 @@ export const QuestPick: React.FC = () => {
           divClassName="ButtonRootDivContainer"
           className="ButtonRoot"
         />
+      </div>
+      <div>
+        <button onClick={handleOpenModal}>Open Modal</button>
+        <SettingsModal isOpen={isModalOpen} onClose={handleCloseModal} />
       </div>
       <div className="AccordionParentDiv">
         <Accordion
