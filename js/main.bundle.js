@@ -50603,6 +50603,61 @@ exports.useFontSize = useFontSize;
 
 /***/ }),
 
+/***/ "./Pages/Quest Details/PlayerStatsSort.ts":
+/*!************************************************!*\
+  !*** ./Pages/Quest Details/PlayerStatsSort.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.usePlayerSortStats = void 0;
+const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+const usePlayerSortStats = () => {
+    let sortedPlayerStats = (0, react_1.useRef)(null);
+    const filterPlayerStats = (playerStats) => {
+        const filterOutNewLine = playerStats.filter((string) => !string.includes("\n"));
+        sortedPlayerStats.current = {
+            rank: parseInt(filterOutNewLine[0], 10),
+            totalLevel: parseInt(filterOutNewLine[1], 10),
+            attack: parseInt(filterOutNewLine[2], 10),
+            defence: parseInt(filterOutNewLine[3], 10),
+            strength: parseInt(filterOutNewLine[4], 10),
+            constitution: parseInt(filterOutNewLine[5], 10),
+            range: parseInt(filterOutNewLine[6], 10),
+            prayer: parseInt(filterOutNewLine[7], 10),
+            magic: parseInt(filterOutNewLine[8], 10),
+            cooking: parseInt(filterOutNewLine[9], 10),
+            woodcutting: parseInt(filterOutNewLine[10], 10),
+            fletching: parseInt(filterOutNewLine[11], 10),
+            fishing: parseInt(filterOutNewLine[12], 10),
+            firemaking: parseInt(filterOutNewLine[13], 10),
+            crafting: parseInt(filterOutNewLine[14], 10),
+            smithing: parseInt(filterOutNewLine[15], 10),
+            mining: parseInt(filterOutNewLine[16], 10),
+            herblore: parseInt(filterOutNewLine[17], 10),
+            agility: parseInt(filterOutNewLine[18], 10),
+            thieving: parseInt(filterOutNewLine[19], 10),
+            slayer: parseInt(filterOutNewLine[20], 10),
+            farming: parseInt(filterOutNewLine[21], 10),
+            runecrafting: parseInt(filterOutNewLine[22], 10),
+            hunter: parseInt(filterOutNewLine[23], 10),
+            construction: parseInt(filterOutNewLine[24], 10),
+            summoning: parseInt(filterOutNewLine[25], 10),
+            dungeoneering: parseInt(filterOutNewLine[26], 10),
+            divination: parseInt(filterOutNewLine[27], 10),
+            invention: parseInt(filterOutNewLine[28], 10),
+            archaeology: parseInt(filterOutNewLine[29], 10),
+            necromancy: parseInt(filterOutNewLine[30], 10),
+        };
+    };
+    return { sortedPlayerStats, filterPlayerStats };
+};
+exports.usePlayerSortStats = usePlayerSortStats;
+
+
+/***/ }),
+
 /***/ "./Pages/Quest Details/QuestDetails.tsx":
 /*!**********************************************!*\
   !*** ./Pages/Quest Details/QuestDetails.tsx ***!
@@ -50763,9 +50818,12 @@ exports.Accordion = Accordion;
 /*!***********************************************!*\
   !*** ./Pages/Quest Selection/QuestPicker.tsx ***!
   \***********************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.QuestPick = void 0;
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
@@ -50773,12 +50831,20 @@ const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js
 const QuestAccordian_1 = __webpack_require__(/*! ./QuestAccordian */ "./Pages/Quest Selection/QuestAccordian.tsx");
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "../node_modules/react-router-dom/dist/index.js");
 const Button_1 = __webpack_require__(/*! ./../Shared Components/Button */ "./Pages/Shared Components/Button.tsx");
-const usePlayerStats_1 = __webpack_require__(/*! ./usePlayerStats */ "./Pages/Quest Selection/usePlayerStats.ts");
+const usePlayerQuests_1 = __webpack_require__(/*! ./usePlayerQuests */ "./Pages/Quest Selection/usePlayerQuests.ts");
 const LoadingComponent_1 = __webpack_require__(/*! ./../Shared Components/LoadingComponent */ "./Pages/Shared Components/LoadingComponent.tsx");
+const PlayerStatsSort_1 = __webpack_require__(/*! ../Quest Details/PlayerStatsSort */ "./Pages/Quest Details/PlayerStatsSort.ts");
+const sortPlayerQuests_1 = __webpack_require__(/*! ./sortPlayerQuests */ "./Pages/Quest Selection/sortPlayerQuests.ts");
+const Settings_1 = __importDefault(__webpack_require__(/*! ./../Settings/Settings */ "./Pages/Settings/Settings.tsx"));
 const QuestPick = () => {
     const navigate = (0, react_router_dom_1.useNavigate)();
     const [playerFound, setPlayerFound] = (0, react_1.useState)(false);
-    const { playerStats, playerQuests, fetchPlayerStats, fetchPlayerQuests, isLoading, hasError, } = (0, usePlayerStats_1.useFetchPlayerInfo)();
+    const [isModalOpen, setIsModalOpen] = (0, react_1.useState)(false);
+    const handleOpenModal = () => setIsModalOpen(true);
+    const handleCloseModal = () => setIsModalOpen(false);
+    const { playerQuests, fetchPlayerQuests, isLoading } = (0, usePlayerQuests_1.useFetchPlayerInfo)();
+    const { completedPlayerQuests, notStartedPlayerQuests, startedPlayerQuests, eligiblePlayerQuests, notEligiblePlayerQuests, sortPlayerQuests, } = (0, sortPlayerQuests_1.useSortedPlayerQuests)();
+    const { sortedPlayerStats, filterPlayerStats } = (0, PlayerStatsSort_1.usePlayerSortStats)();
     const handleItemClick = (value) => {
         navigate("/QuestDetails", { state: { questValue: value } });
     };
@@ -50792,31 +50858,137 @@ const QuestPick = () => {
             return; // Prevent multiple fetches
         if (playerSearch.length <= 0)
             return;
-        await fetchPlayerStats(playerSearch);
         await fetchPlayerQuests(playerSearch);
+        if (playerQuests.current !== null) {
+            sortPlayerQuests(playerQuests.current);
+            console.log(completedPlayerQuests.current);
+        }
     };
     (0, react_1.useEffect)(() => {
-        if (playerStats !== "null" && playerQuests !== null) {
+        if (playerQuests !== null) {
             setPlayerFound(true);
         }
-    }, [playerQuests, playerStats]);
+    }, [playerQuests]);
     return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsxs)("div", { className: "InputGroup", children: [(0, jsx_runtime_1.jsxs)("div", { className: "SearchPlayerInputContainer", children: [(0, jsx_runtime_1.jsx)("p", { className: "SearchPlayerLabel", children: "Search Player" }), isLoading && ((0, jsx_runtime_1.jsx)(LoadingComponent_1.CircularProgress, { size: 20, color: "#bf3651", className: "InputSpinner" })), (0, jsx_runtime_1.jsx)("input", { className: "SearchPlayerInput", onKeyDown: (e) => {
                                     if (e.key === "Enter") {
                                         handlePlayerSearch(e.currentTarget.value);
                                     }
                                 }, placeholder: "Player Name Here", style: {
                                     color: !playerFound ? "#007bff" : "#38b070", // Change text color dynamically
-                                } })] }), (0, jsx_runtime_1.jsxs)("div", { className: "SearchQuestInputContainer", children: [(0, jsx_runtime_1.jsx)("p", { className: "SearchQuestLabel", children: "Search Quest" }), (0, jsx_runtime_1.jsx)("input", { className: "SearchQuestInput", onChange: (event) => setSearchQuery(event.currentTarget.value) })] })] }), (0, jsx_runtime_1.jsxs)("div", { className: "ButtonGroup", children: [(0, jsx_runtime_1.jsx)(Button_1.Button, { label: "Search Player", divClassName: "ButtonRootDivContainer", className: "ButtonRoot", disabled: isLoading }), (0, jsx_runtime_1.jsx)(Button_1.Button, { label: "Sort Out Completed Quests", divClassName: "ButtonRootDivContainer", className: "ButtonRoot" })] }), (0, jsx_runtime_1.jsx)("div", { className: "AccordionParentDiv", children: (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, { onClick: handleItemClick, searchQuery: searchQuery, sorted: sort.current }) })] }));
+                                } })] }), (0, jsx_runtime_1.jsxs)("div", { className: "SearchQuestInputContainer", children: [(0, jsx_runtime_1.jsx)("p", { className: "SearchQuestLabel", children: "Search Quest" }), (0, jsx_runtime_1.jsx)("input", { className: "SearchQuestInput", onChange: (event) => setSearchQuery(event.currentTarget.value) })] })] }), (0, jsx_runtime_1.jsxs)("div", { className: "ButtonGroup", children: [(0, jsx_runtime_1.jsx)(Button_1.Button, { label: "Search Player", divClassName: "ButtonRootDivContainer", className: "ButtonRoot", disabled: isLoading }), (0, jsx_runtime_1.jsx)(Button_1.Button, { label: "Sort Out Completed Quests", divClassName: "ButtonRootDivContainer", className: "ButtonRoot" })] }), (0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("button", { onClick: handleOpenModal, children: "Open Modal" }), (0, jsx_runtime_1.jsx)(Settings_1.default, { isOpen: isModalOpen, onClose: handleCloseModal })] }), (0, jsx_runtime_1.jsx)("div", { className: "AccordionParentDiv", children: (0, jsx_runtime_1.jsx)(QuestAccordian_1.Accordion, { onClick: handleItemClick, searchQuery: searchQuery, sorted: sort.current }) })] }));
 };
 exports.QuestPick = QuestPick;
 
 
 /***/ }),
 
-/***/ "./Pages/Quest Selection/usePlayerStats.ts":
-/*!*************************************************!*\
-  !*** ./Pages/Quest Selection/usePlayerStats.ts ***!
-  \*************************************************/
+/***/ "./Pages/Quest Selection/sortPlayerQuests.ts":
+/*!***************************************************!*\
+  !*** ./Pages/Quest Selection/sortPlayerQuests.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.useSortedPlayerQuests = void 0;
+const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+const useSortedPlayerQuests = () => {
+    let completedPlayerQuests = (0, react_1.useRef)(null);
+    let notStartedPlayerQuests = (0, react_1.useRef)(null);
+    let startedPlayerQuests = (0, react_1.useRef)(null);
+    let eligiblePlayerQuests = (0, react_1.useRef)(null);
+    let notEligiblePlayerQuests = (0, react_1.useRef)(null);
+    let alteredQuestData = (0, react_1.useRef)();
+    const sortPlayerQuests = (questData) => {
+        if (Array.isArray(questData)) {
+            const replacementMap = new Map([
+                ["Hermy and Bass", "That Old Black Magic: Hermy and Bass"],
+                ["Flesh and Bone", "That Old Black Magic: Flesh and Bone"],
+                ["Skelly by Everlight", "That Old Black Magic: Skelly by Everlight"],
+                ["My One and Only Lute", "That Old Black Magic: My One and Only Lute"],
+                ["Foreshadowing", "Once Upon a Time in Gielinor: Foreshadowing"],
+                [
+                    "Defeating the Culinaromancer",
+                    "Recipe for Disaster: Defeating the Culinaromancer",
+                ],
+                ["Freeing Evil Dave", "Recipe for Disaster: Freeing Evil Dave"],
+                ["Freeing King Awowogei", "Recipe for Disaster: Freeing King Awowogei"],
+                ["Freeing Pirate Pete", "Recipe for Disaster: Freeing Pirate Pete"],
+                [
+                    "Freeing Sir Amik Varze",
+                    "Recipe for Disaster: Freeing Sir Amik Varze",
+                ],
+                [
+                    "Freeing Skrach Uglogwee",
+                    "Recipe for Disaster: Freeing Skrach Uglogwee",
+                ],
+                [
+                    "Freeing the Goblin Generals",
+                    "Recipe for Disaster: Freeing the Goblin Generals",
+                ],
+                [
+                    "Freeing the Lumbridge Sage",
+                    "Recipe for Disaster: Freeing the Lumbridge Sage",
+                ],
+                [
+                    "Freeing the Mountain Dwarf",
+                    "Recipe for Disaster: Freeing the Mountain Dwarf",
+                ],
+                ["That Old Black Magic", ""],
+                ["Unstable Foundations", ""],
+                ["Once Upon a Time in Gielinor", ""],
+                ["Recipe for Disaster", ""],
+                ["Dimension of Disaster", ""],
+                ["Finale", "Once Upon a Time in Gielinor: Finale"],
+                ["flashback", "Once Upon a Time in Gielinor: Flashback"],
+                ["Foreshadowing", "Once Upon a Time in Gielinor: Foreshadowing"],
+                ["Fortunes", "Once Upon a Time in Gielinor: Fortunes"],
+                ["Raksha, The Shadow Colossus", "Raksha, The Shadow Colossus Quest"],
+                ["Helping Laniakea", "Helping Laniakea (miniquest)"],
+                ["Father and Son", "Father and Son (miniquest)"],
+                ["A Fairy Tale I - Growing Pains", "A Fairy Tale I: Growing Pains"],
+                ["A Fairy Tale II - Cure a Queen", "A Fairy Tale II: Cure a Queen"],
+                [
+                    "A Fairy Tale III - Battle at Ork's Rift",
+                    "A Fairy Tale III: Battle at Ork's Rift",
+                ],
+            ]);
+            alteredQuestData.current = questData
+                .map((quest) => {
+                const newTitle = replacementMap.get(quest.title) ?? quest.title;
+                return {
+                    ...quest,
+                    title: newTitle,
+                };
+            })
+                .filter((quest) => quest.title !== "");
+            console.log(alteredQuestData.current);
+            completedPlayerQuests.current = alteredQuestData.current.filter((quest) => quest.status === "COMPLETED");
+            notStartedPlayerQuests.current = alteredQuestData.current.filter((quest) => quest.status === "NOT_STARTED");
+            console.log(notStartedPlayerQuests.current);
+            startedPlayerQuests.current = alteredQuestData.current.filter((quest) => quest.status === "STARTED");
+            eligiblePlayerQuests.current = alteredQuestData.current.filter((quest) => (quest.userEligible = true));
+            notEligiblePlayerQuests.current = alteredQuestData.current.filter((quest) => (quest.userEligible = false));
+        }
+    };
+    return {
+        completedPlayerQuests,
+        notStartedPlayerQuests,
+        startedPlayerQuests,
+        eligiblePlayerQuests,
+        notEligiblePlayerQuests,
+        sortPlayerQuests,
+    };
+};
+exports.useSortedPlayerQuests = useSortedPlayerQuests;
+
+
+/***/ }),
+
+/***/ "./Pages/Quest Selection/usePlayerQuests.ts":
+/*!**************************************************!*\
+  !*** ./Pages/Quest Selection/usePlayerQuests.ts ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -50824,37 +50996,17 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.useFetchPlayerInfo = void 0;
 const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
 const useFetchPlayerInfo = () => {
-    const [playerStats, setPlayerStats] = (0, react_1.useState)("null");
-    const [playerQuests, setPlayerQuests] = (0, react_1.useState)(null);
+    let playerQuests = (0, react_1.useRef)(null);
     const [isLoading, setIsLoading] = (0, react_1.useState)(false);
     const [hasError, setHasError] = (0, react_1.useState)(false);
-    const PlayerQuestSite = "https://corsproxy.io/?" +
-        encodeURIComponent("https://apps.runescape.com/runemetrics/quests");
-    const PlayerStatsSite = "https://corsproxy.io/?" +
-        encodeURIComponent("https://secure.runescape.com/m=hiscore/index_lite.ws?player=");
-    const fetchPlayerStats = async (playerName) => {
-        try {
-            setIsLoading(true);
-            const response = await fetch(PlayerStatsSite + `${playerName}`);
-            const playerInfo = await response.text();
-            console.log(playerInfo);
-            setPlayerStats(playerInfo);
-            setHasError(false);
-            setIsLoading(false);
-        }
-        catch (error) {
-            console.error("Was not able to fetch player stats", error);
-            setIsLoading(false);
-            setHasError(true);
-        }
-    };
+    const PlayerQuestSite = "https://corsproxy.io/?url=https://apps.runescape.com/runemetrics/quests";
     const fetchPlayerQuests = async (playerName) => {
         try {
             setIsLoading(true);
             const response = await fetch(PlayerQuestSite + `?user=${playerName}`);
-            const playerIQuests = await response.json();
-            setPlayerQuests(playerIQuests);
-            console.log(playerIQuests);
+            const data = await response.json();
+            playerQuests.current = data.quests;
+            localStorage.setItem("playerName", playerName.toString());
             setHasError(false);
             setIsLoading(false);
         }
@@ -50865,15 +51017,238 @@ const useFetchPlayerInfo = () => {
         }
     };
     return {
-        playerStats,
         playerQuests,
-        fetchPlayerStats,
         fetchPlayerQuests,
         isLoading,
         hasError,
     };
 };
 exports.useFetchPlayerInfo = useFetchPlayerInfo;
+
+
+/***/ }),
+
+/***/ "./Pages/Settings/ColorPicker.tsx":
+/*!****************************************!*\
+  !*** ./Pages/Settings/ColorPicker.tsx ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ColorPicker = void 0;
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+const ColorPicker = ({ onChange }) => {
+    const canvasRef = (0, react_1.useRef)(null);
+    const [selectedColor, setSelectedColor] = (0, react_1.useState)("#000000"); // Default to black
+    const [pointerPosition, setPointerPosition] = (0, react_1.useState)(null);
+    const [savedColors, setSavedColors] = (0, react_1.useState)([]);
+    const [isDragging, setIsDragging] = (0, react_1.useState)(false); // Track dragging state
+    const maxColors = 5;
+    (0, react_1.useEffect)(() => {
+        const canvas = canvasRef.current;
+        if (canvas) {
+            const ctx = canvas.getContext("2d", { willReadFrequently: true });
+            if (ctx) {
+                // Create a horizontal gradient for the hue
+                const gradient1 = ctx.createLinearGradient(0, 0, canvas.width, 0);
+                gradient1.addColorStop(0, "red");
+                gradient1.addColorStop(0.17, "yellow");
+                gradient1.addColorStop(0.34, "lime");
+                gradient1.addColorStop(0.51, "cyan");
+                gradient1.addColorStop(0.68, "blue");
+                gradient1.addColorStop(0.85, "magenta");
+                gradient1.addColorStop(1, "red");
+                ctx.fillStyle = gradient1;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                // Create a vertical gradient for saturation and lightness
+                const gradient2 = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient2.addColorStop(0, "rgba(255,255,255,1)");
+                gradient2.addColorStop(0.5, "rgba(255,255,255,0)");
+                gradient2.addColorStop(0.5, "rgba(0,0,0,0)");
+                gradient2.addColorStop(1, "rgba(0,0,0,1)");
+                ctx.fillStyle = gradient2;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                // Set the initial position and color to black at the bottom center of the canvas
+                setPointerPosition({ x: canvas.width / 2, y: canvas.height });
+                const initialColor = getColorAtPosition(ctx, canvas.width / 2, canvas.height);
+                setSelectedColor(initialColor);
+            }
+        }
+    }, []);
+    const getColorAtPosition = (ctx, x, y) => {
+        const pixel = ctx.getImageData(x, y, 1, 1).data;
+        return `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+    };
+    const handleMouseMove = (e) => {
+        if (!isDragging)
+            return; // Only update color when dragging
+        const canvas = canvasRef.current;
+        if (!canvas)
+            return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+            const color = getColorAtPosition(ctx, x, y);
+            setSelectedColor(color);
+            setPointerPosition({ x, y });
+        }
+    };
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        // Select color immediately on mouse down
+        const canvas = canvasRef.current;
+        if (!canvas)
+            return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+            const color = getColorAtPosition(ctx, x, y);
+            setSelectedColor(color);
+            setPointerPosition({ x, y });
+        }
+    };
+    const handleMouseUp = () => {
+        setIsDragging(false);
+        // Save color when mouse is released
+        if (savedColors.length === maxColors) {
+            savedColors.reverse();
+            savedColors.pop();
+            savedColors.reverse();
+        }
+        if (savedColors.length < maxColors &&
+            !savedColors.includes(selectedColor)) {
+            const updatedColors = [...savedColors, selectedColor];
+            setSavedColors(updatedColors);
+            if (onChange) {
+                onChange(selectedColor);
+            }
+        }
+    };
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { padding: "1.25em" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { position: "relative" }, children: [(0, jsx_runtime_1.jsx)("canvas", { ref: canvasRef, width: 100, height: 100, style: { border: "0.003em solid #000", borderRadius: "0.5em" }, onMouseDown: handleMouseDown, onMouseMove: handleMouseMove, onMouseUp: handleMouseUp, onMouseLeave: handleMouseUp }), (0, jsx_runtime_1.jsx)("div", { style: {
+                            width: "2em",
+                            height: "2em",
+                            backgroundColor: selectedColor,
+                            border: "0.005em solid #000",
+                            borderRadius: "0.3em",
+                            marginBottom: "0.5em",
+                        } }), pointerPosition && ((0, jsx_runtime_1.jsx)("div", { style: {
+                            position: "absolute",
+                            top: ` ${pointerPosition.y - 5}px`,
+                            left: pointerPosition.x - 5,
+                            width: ".625em",
+                            height: ".625em",
+                            border: ".125em solid #fff",
+                            backgroundColor: selectedColor,
+                            borderRadius: "50%",
+                            pointerEvents: "none",
+                        } }))] }), (0, jsx_runtime_1.jsx)("hr", { style: { width: "75%" } }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: ".5em" }, children: (0, jsx_runtime_1.jsx)("div", { style: {
+                        display: "flex",
+                        gap: "10px",
+                        flexWrap: "wrap", // Enables wrapping behavior
+                        justifyContent: "flex-start", // Aligns items at the start of the row
+                    }, children: savedColors.map((color, index) => ((0, jsx_runtime_1.jsx)("div", { style: {
+                            width: "2em",
+                            height: "2em",
+                            backgroundColor: color,
+                            border: "1px solid #000",
+                            borderRadius: "0.3em",
+                        } }, index))) }) })] }));
+};
+exports.ColorPicker = ColorPicker;
+
+
+/***/ }),
+
+/***/ "./Pages/Settings/SettingOptions.tsx":
+/*!*******************************************!*\
+  !*** ./Pages/Settings/SettingOptions.tsx ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.useSettingOptions = void 0;
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+const ColorPicker_1 = __webpack_require__(/*! ./ColorPicker */ "./Pages/Settings/ColorPicker.tsx");
+const useSettingOptions = () => {
+    const settingsSections = [
+        {
+            title: "Quest Sorting",
+            content: ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", value: "" }), (0, jsx_runtime_1.jsx)("label", { children: "Show Completed Quests" }), (0, jsx_runtime_1.jsx)("input", { type: "checkbox", value: "" }), (0, jsx_runtime_1.jsx)("label", { children: "Show Quest's I Can Do" }), (0, jsx_runtime_1.jsx)("input", { type: "checkbox", value: "" }), (0, jsx_runtime_1.jsx)("label", { children: "Show Quest's I Cant Do" })] })),
+        },
+        {
+            title: "Change Font/Button Color",
+            content: ((0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, { children: (0, jsx_runtime_1.jsxs)("div", { className: "ColorPickerContainer", children: [(0, jsx_runtime_1.jsx)("div", { className: "FontColorPicker", children: (0, jsx_runtime_1.jsx)(ColorPicker_1.ColorPicker, {}) }), (0, jsx_runtime_1.jsx)("div", { className: "ButtonColorPicker", children: (0, jsx_runtime_1.jsx)(ColorPicker_1.ColorPicker, {}) }), (0, jsx_runtime_1.jsx)("div", { className: "LabelColorPicker", children: (0, jsx_runtime_1.jsx)(ColorPicker_1.ColorPicker, {}) })] }) })),
+        },
+        {
+            title: "Font Size",
+            content: ((0, jsx_runtime_1.jsxs)("ul", { children: [(0, jsx_runtime_1.jsx)("li", { children: "Email Notifications" }), (0, jsx_runtime_1.jsx)("li", { children: "Push Notifications" }), (0, jsx_runtime_1.jsx)("li", { children: "SMS Alerts" })] })),
+        },
+        {
+            title: "Step Highlight Options",
+            content: ((0, jsx_runtime_1.jsxs)("ul", { children: [(0, jsx_runtime_1.jsx)("li", { children: "Email Notifications" }), (0, jsx_runtime_1.jsx)("li", { children: "Push Notifications" }), (0, jsx_runtime_1.jsx)("li", { children: "SMS Alerts" })] })),
+        },
+        {
+            title: "Misc Options",
+            content: ((0, jsx_runtime_1.jsxs)("ul", { children: [(0, jsx_runtime_1.jsx)("li", { children: "Email Notifications" }), (0, jsx_runtime_1.jsx)("li", { children: "Push Notifications" }), (0, jsx_runtime_1.jsx)("li", { children: "SMS Alerts" })] })),
+        },
+    ];
+    return { settingsSections };
+};
+exports.useSettingOptions = useSettingOptions;
+
+
+/***/ }),
+
+/***/ "./Pages/Settings/Settings.tsx":
+/*!*************************************!*\
+  !*** ./Pages/Settings/Settings.tsx ***!
+  \*************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+const SettingsAccordion_1 = __importDefault(__webpack_require__(/*! ./SettingsAccordion */ "./Pages/Settings/SettingsAccordion.tsx"));
+const SettingOptions_1 = __webpack_require__(/*! ./SettingOptions */ "./Pages/Settings/SettingOptions.tsx");
+// SettingsModal Component
+const SettingsModal = ({ isOpen, onClose, }) => {
+    const { settingsSections } = (0, SettingOptions_1.useSettingOptions)();
+    return ((0, jsx_runtime_1.jsx)("div", { className: `settings-modal-overlay ${isOpen ? "open" : ""}`, onClick: onClose, children: (0, jsx_runtime_1.jsx)("div", { className: `settings-modal ${isOpen ? "open" : ""}`, onClick: (e) => e.stopPropagation(), children: (0, jsx_runtime_1.jsx)(SettingsAccordion_1.default, { settingsSections: settingsSections }) }) }));
+};
+exports["default"] = SettingsModal;
+
+
+/***/ }),
+
+/***/ "./Pages/Settings/SettingsAccordion.tsx":
+/*!**********************************************!*\
+  !*** ./Pages/Settings/SettingsAccordion.tsx ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "../node_modules/react/jsx-runtime.js");
+const react_1 = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+const AccordionItem = ({ title, content }) => {
+    const [isOpen, setIsOpen] = (0, react_1.useState)(false);
+    const toggleOpen = () => setIsOpen(!isOpen);
+    return ((0, jsx_runtime_1.jsxs)("div", { className: "AccordionContainer", children: [(0, jsx_runtime_1.jsx)("button", { onClick: toggleOpen, className: "AccordionItem", children: title }), isOpen && ((0, jsx_runtime_1.jsx)("div", { className: "AccordionContentContainer", children: (0, jsx_runtime_1.jsx)("div", { className: "AccordionContent", children: content }) }))] }));
+};
+const SettingsAccordion = ({ settingsSections, }) => {
+    return ((0, jsx_runtime_1.jsx)("div", { className: "SettingsAccordion", children: settingsSections.map((section, index) => ((0, jsx_runtime_1.jsx)(AccordionItem, { title: section.title, content: section.content }, index))) }));
+};
+exports["default"] = SettingsAccordion;
 
 
 /***/ }),
